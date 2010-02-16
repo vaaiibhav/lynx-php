@@ -10,7 +10,7 @@
   	
   	public function indexAction(){
   		require_once('Lynx/Template/XHTML.php');
-      $Template = new Lynx_Template_XHTML($this->_registry);
+      $Template = new Lynx_Template_XHTML();
       $this->_registry->set('template', $Template);
   		$this->_registry->get('template')->title('Testing');
   	}

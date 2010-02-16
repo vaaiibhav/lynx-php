@@ -27,9 +27,7 @@
   	
   	protected $_currentTemplate = 'default';
   	
-  	public function __construct(Lynx_Registry $registry){
-  	  $this->_registry = $registry;
-  	}
+  	public function __construct(){ }
     
     /**
      * title
