@@ -15,6 +15,4 @@
   		$this->_registry = $registry;
   	}
   	
-  	abstract public function indexAction();
-  	
   }
