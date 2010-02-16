@@ -29,8 +29,10 @@
   	
   	protected $_currentTemplate = 'default';
   	
-  	public function __construct(Lynx_Registry $registry){
-  	 $this->_registry = $registry;
+  	protected $_config = array();
+  	
+  	public function __construct(array $config){
+  	  $this->_config = $config;
   	}
     
     /**
