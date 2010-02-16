@@ -25,9 +25,13 @@
   	
   	protected $_templatesDirectory = 'templates';
   	
+  	protected $_partialsDirectory = 'partials';
+  	
   	protected $_currentTemplate = 'default';
   	
-  	public function __construct(){ }
+  	public function __construct(Lynx_Registry $registry){
+  	 $this->_registry = $registry;
+  	}
     
     /**
      * title
@@ -59,6 +63,26 @@
      */
     final public function templatesDirectoryName(){
       return $this->_templatesDirectory;
+    }
+    
+    /**
+     * setPartialsDirectoryName
+     * 
+     * Method to set the directory name that houses the template partials
+     * @param string $name
+     */
+    final public function setPartialsDirectoryName($name){
+      $this->_partialsDirectory = $name;
+    }
+    
+    /**
+     * partialsDirectoryName
+     * 
+     * Method to return the current directory name for the template partials
+     * @return string
+     */
+    final public function partialsDirectoryName(){
+      return $this->_partialsDirectory;
     }
     
     /**

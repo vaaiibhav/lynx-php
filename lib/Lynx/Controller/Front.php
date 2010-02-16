@@ -67,7 +67,10 @@
     final public function run(Lynx_Registry $registry){
     	$Router = Lynx_Router::getInstance();
     	// pass the current module, controller and action to the Registry
-    	$registry->set('module', $Router->currentModule())->set('controller', $Router->currentController())->set('action', $Router->currentAction());
+    	$registry->set('module', $Router->currentModule())
+    	         ->set('controller', $Router->currentController())
+    	         ->set('action', $Router->currentAction())
+    	         ->set('modulesDirectory', $this->getModulesDirectoryName());
     	
       // load up the business logic ... module's controller
       $controllerDirectory = '';

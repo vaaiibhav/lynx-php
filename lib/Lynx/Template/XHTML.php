@@ -13,7 +13,10 @@
   	
   	protected $_docType = NULL;
   	
-  	public function __construct($docType = NULL){
+  	protected $_fileExtension = '.phtml';
+  	
+  	public function __construct(Lynx_Registry $registry, $docType = NULL){
+  		parent::__construct($registry);
   		$this->selectDocType($docType);
   	}
   	
@@ -31,27 +34,34 @@
   		return $this->_docType;
   	}
   	
-  	public function render($source, $buffer = FALSE){
+  	public function renderLayout($source, $buffer = FALSE){
   		$tmp = $this->templatesDirectoryName();
-  		$path = (!empty($tmp)) ? $this->templatesDirectoryName().DIRECTORY_SEPARATOR : '';
-  		$path .= $this->currentTemplate().DIRECTORY_SEPARATOR;
-  		$path .= $source; 
+      $path = (!empty($tmp)) ? $this->templatesDirectoryName().DIRECTORY_SEPARATOR : '';
+      $path .= $this->currentTemplate().DIRECTORY_SEPARATOR;
+      $path .= $source;
+      $this->render($path, $buffer);
+  	}
+  	
+  	public function renderPartial($source, $buffer = FALSE){
+  		$tmp = $this->_registry->get('modulesDirectory');
+      $path = (!empty($tmp)) ? $tmp.DIRECTORY_SEPARATOR : '';
+      $path .= $this->_registry->get('module').DIRECTORY_SEPARATOR;
+      $tmp = $this->partialsDirectoryName();
+      $path .= (!empty($tmp)) ? $tmp.DIRECTORY_SEPARATOR : '';
+      $path .= $source . $this->getTemplateFileExtension();
+  		$this->render($path, $buffer);
+  	}
+  	
+  	public function render($source, $buffer = FALSE){
   		if(!$buffer)
-  		  require_once($path);
+  		  require_once($source);
   		else 
-  		  $buffer = file_get_contents($path);
+  		  $buffer = file_get_contents($source);
   		return $buffer;
   	}
   	
-  	public function partial($source, $buffer = FALSE){
-  		#$tmp = $this->partialsDirectoryName();
-      #$path = (!empty($tmp)) ? $this->partialsDirectoryName().DIRECTORY_SEPARATOR : '';
-      $path = $source; 
-      if(!$buffer)
-        require_once($path);
-      else 
-        $buffer = file_get_contents($path);
-      return $buffer;
+  	protected function getTemplateFileExtension(){
+  		return $this->_fileExtension;
   	}
   	
   }
