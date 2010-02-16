@@ -1,0 +1,13 @@
+<?php
+  echo $this->docType(); 
+?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title><?php echo $this->title(); ?></title>
+  </head>
+  <body>
+    <?php
+      $this->partial('modules/default/partials/index.phtml');
+    ?>
+  </body>
+</html>
