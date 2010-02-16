@@ -13,8 +13,7 @@
   	
   	protected $_docType = NULL;
   	
-  	public function __construct(Lynx_Registry $registry, $docType = NULL){
-  		parent::__construct($registry);
+  	public function __construct($docType = NULL){
   		$this->selectDocType($docType);
   	}
   	
