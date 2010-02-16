@@ -15,8 +15,8 @@
   	
   	protected $_fileExtension = '.phtml';
   	
-  	public function __construct(Lynx_Registry $registry, $docType = NULL){
-  		parent::__construct($registry);
+  	public function __construct(array $config, $docType = NULL){
+  		parent::__construct($config);
   		$this->selectDocType($docType);
   	}
   	
@@ -43,9 +43,9 @@
   	}
   	
   	public function renderPartial($source, $buffer = FALSE){
-  		$tmp = $this->_registry->get('modulesDirectory');
+  		$tmp = $this->_config['modulesDirectory'];
       $path = (!empty($tmp)) ? $tmp.DIRECTORY_SEPARATOR : '';
-      $path .= $this->_registry->get('module').DIRECTORY_SEPARATOR;
+      $path .= $this->_config['currentModule'].DIRECTORY_SEPARATOR;
       $tmp = $this->partialsDirectoryName();
       $path .= (!empty($tmp)) ? $tmp.DIRECTORY_SEPARATOR : '';
       $path .= $source . $this->getTemplateFileExtension();
