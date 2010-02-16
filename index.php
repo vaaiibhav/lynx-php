@@ -9,11 +9,27 @@
 
   require_once('Lynx/Session.php');
   require_once('Lynx/Registry.php');
+  
+  require_once('Lynx/Database.php');
+  
+  $init = array('adapter' => 'MySQL', 
+                'init' => array(
+                'host' => 'localhost', 
+                'user' => 'tester', 
+                'pass' => '', 
+                'db' => 'domo'));
+  try {
+    $Database = Lynx_Database::factory($init);
+  } catch(Exception $e){
+  	die('Failed to initialize the database.');
+  }
+  
   require_once('Lynx/Controller/Front.php');
   
   $Session = new Lynx_Session();
   
   $Registry = Lynx_Registry::getInstance();
+  $Registry->set('session', $Session);
   
   $controller = Lynx_Controller_Front::getInstance();
   
