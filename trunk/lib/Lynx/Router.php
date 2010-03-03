@@ -32,7 +32,13 @@
       if(isset($_GET['vars'])){
         $queryParameters = $_GET['vars'];
       } else {
-        $queryParameters = preg_replace("#((.*).php[/]?)?(.*)#", "\\3", $_SERVER['REQUEST_URI']);
+        $queryParameters = preg_replace("#((.*)\.php[/]?)?(.*)#", "\\3", $_SERVER['REQUEST_URI']);
+        // strip $_GET if present
+	      if(preg_match('#\?#', $queryParameters)){
+	        $tmp = split('\?', $queryParameters);
+	        $queryParameters = $tmp[0];
+	        unset($tmp);
+	      }
       }
       $queryParameters = explode("\x2F", $queryParameters);
       

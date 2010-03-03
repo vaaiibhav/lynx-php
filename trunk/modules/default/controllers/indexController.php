@@ -11,6 +11,7 @@
   	public function indexAction(){
   		require_once('Lynx/Template/XHTML.php');
   		$templateConfig = array('currentModule' => $this->_registry->get('module'), 
+  		                        'currentController' => $this->_registry->get('controller'),
   		                        'modulesDirectory' => $this->_registry->get('modulesDirectory')
   		                       );
       $Template = new Lynx_Template_XHTML($templateConfig);
