@@ -48,6 +48,7 @@
       $path .= $this->_config['currentModule'].DIRECTORY_SEPARATOR;
       $tmp = $this->partialsDirectoryName();
       $path .= (!empty($tmp)) ? $tmp.DIRECTORY_SEPARATOR : '';
+      $path .= $this->_config['currentController'].DIRECTORY_SEPARATOR;
       $path .= $source . $this->getTemplateFileExtension();
   		$this->render($path, $buffer);
   	}
