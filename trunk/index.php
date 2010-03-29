@@ -26,30 +26,11 @@
   
   require_once('Lynx/Controller/Front.php');
   
-  $Session = new Lynx_Session();
+  #$Session = new Lynx_Session();
   
   $Registry = Lynx_Registry::getInstance();
-  $Registry->set('session', $Session);
+  #$Registry->set('session', $Session);
   
   $controller = Lynx_Controller_Front::getInstance();
   
   $controller->run($Registry);
-  
-  require_once('Lynx/Singleton_Abstract.php');
-  class Mike extends Lynx_Singleton_Abstract {
-  	
-    public static function getInstance(){
-    	self::$_class = __CLASS__;
-      if(self::$_instance == NULL)
-        self::$_instance = new self::$_class;
-      return self::$_instance;
-    }
-  	
-  	public function test(){
-  	 echo 'works';
-  	}
-  	
-  }
-  
-  $c = Mike::getInstance();
-  $c->test();

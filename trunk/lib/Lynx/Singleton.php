@@ -2,20 +2,20 @@
   
   /**
    * @category Lynx
-   * @package Lynx_Singleton_Abstract
+   * @package Lynx_Singleton
    * @author Travis Crowder
    * @version $Id$
    */
 
-  abstract class Lynx_Singleton_Abstract {
+  require_once('Singleton/Singleton_Abstract.php');
+
+  class Lynx_Singleton extends Lynx_Singleton_Abstract {
   	
   	protected static $_instance = NULL;
   	
   	protected static $_class = __CLASS__;
   	
   	protected function __construct(){ if(function_exists('get_called_class')) self::$_class = get_called_class(); }
-  	
-  	private final function __clone(){ }
   	
   	/**
   	 * getInstance
