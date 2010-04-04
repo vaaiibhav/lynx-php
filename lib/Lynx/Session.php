@@ -36,10 +36,6 @@
     public function __get($x){
       return $this->_variables[$x];     
     }
-    
-    protected function __destruct(){
-    	session_regenerate_id(true);
-    }
   	
   	public function getSessionNamespace(){
   		return session_name();
