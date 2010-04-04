@@ -11,6 +11,8 @@
   	
   	protected static $_instantiated = FALSE;
   	
+  	protected $_variables = array();
+  	
   	public function __construct($namespace = 'default'){
   		
   		$this->setSessionNamespace($namespace);
@@ -20,6 +22,24 @@
   			self::$_instantiated = $namespace;
   		}
   	}
+  	
+    public function __isset($x){
+      if(isset($this->_variables[$x]))
+        return true;
+      return false;
+    }
+    
+    public function __set($x, $y){
+      $this->_variables[$x] = $y;
+    }
+    
+    public function __get($x){
+      return $this->_variables[$x];     
+    }
+    
+    protected function __destruct(){
+    	session_regenerate_id(true);
+    }
   	
   	public function getSessionNamespace(){
   		return session_name();

@@ -11,7 +11,7 @@
   	
   	protected $_db = NULL;
   	protected $_table = 'users';
-  	protected $_pkey = 'userId';
+  	protected $_pkey = 'user_id';
   	protected $_userColumn = 'login';
   	protected $_passwordColumn = 'peaches';
   	protected $_user = NULL;
