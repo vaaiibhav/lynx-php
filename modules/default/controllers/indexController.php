@@ -12,11 +12,22 @@
   		require_once('Lynx/Template/XHTML.php');
   		$templateConfig = array('currentModule' => $this->_registry->get('module'), 
   		                        'currentController' => $this->_registry->get('controller'),
-  		                        'modulesDirectory' => $this->_registry->get('modulesDirectory')
+  		                        'modulesDirectory' => $this->_registry->get('modulesDirectory'), 
+  		                        'fqdn' => $_REQUEST['fqdn']
   		                       );
       $Template = new Lynx_Template_XHTML($templateConfig);
       $this->_registry->set('template', $Template);
   		$this->_registry->get('template')->title('Testing');
+  		
+  		// authentication test
+  		/*require_once('Lynx/Auth.php');
+  		$auth = new Lynx_Auth($this->_registry->get('database'), 'travis', 'password', 'SHA1');
+  		$userId = $auth->authenticate();
+  		if($userId)
+  		  echo 'logged in';
+  		else
+  		  echo 'failed authentication';
+  		  */
   		
   		// validator test
   		/*require_once('Lynx/Validator.php');

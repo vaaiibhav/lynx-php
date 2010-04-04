@@ -41,8 +41,8 @@
 	      }
       }
       $queryParameters = explode("\x2F", $queryParameters);
-      
       // get MVC part
+      $_REQUEST['fqdn'] = $_SERVER['SERVER_NAME'];
       $_REQUEST['module'] = (!empty($queryParameters[0])) ? $queryParameters[0] : 'default';
       $_REQUEST['controller'] = (!empty($queryParameters[0]) && !empty($queryParameters[1])) ? $queryParameters[1] : 'index';
       $_REQUEST['action'] = (!empty($queryParameters[0]) && !empty($queryParameters[1]) && !empty($queryParameters[2])) ? $queryParameters[2] : 'index';

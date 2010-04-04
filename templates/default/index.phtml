@@ -4,10 +4,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <title><?php echo $this->title(); ?></title>
+    <link rel="stylesheet" href="http://<?php echo $this->FQDN(); ?>/styles/style.css" type="text/css" media="screen" />
   </head>
   <body>
+    <div id="lynx_wrapper">
     <?php
       $this->renderPartial('index');
     ?>
+    </div>
   </body>
 </html>

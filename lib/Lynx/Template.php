@@ -106,5 +106,9 @@
     final public function currentTemplate(){
       return $this->_currentTemplate;
     }
+    
+    public function FQDN(){
+    	return $this->_config['fqdn'];
+    }
   	
   }

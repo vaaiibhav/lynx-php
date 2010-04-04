@@ -30,6 +30,13 @@
      *  @var int $_queryCount
      */
     static private $_queryCount = 0;
+    
+    /**
+     * Debugging variable used to print queries
+     * 
+     * @var bool $_debug
+     */
+    protected $_debug = FALSE;
 
     /**
      * MySQL class constructor
@@ -92,12 +99,19 @@
       return strtr($text, $replace);
     }
     
+    protected function clean_array(array $data){
+    	foreach($data as $key => $value)
+    	 $data[$key] = $this->clean($value);
+    	return $data;
+    }
+    
     protected function prepare($sql, array $data = array()){
       $dataCount = count($data);
       if(!$dataCount) return $sql;
       $numToReplace = substr_count($sql, '?');
       if(!$numToReplace) return $sql;
-      $data = array_map(array('Database', 'clean'), $data);
+      #$data = array_map(array('Lynx_Database_MySQL', 'clean'), $data);
+      $data = $this->clean_array($data);
       if($dataCount != $numToReplace) throw new Exception('Data count ('.$dataCount.') does not match bind count ('.$numToReplace.') on '.$sql);
       for($i = 0; $i < $numToReplace; $i++){
         if(!isset($data[$i]))
