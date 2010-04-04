@@ -23,6 +23,8 @@
   	
   	protected $_registry = NULL;
   	
+  	protected $_variables = array();
+  	
   	protected $_templatesDirectory = 'templates';
   	
   	protected $_partialsDirectory = 'partials';
@@ -33,6 +35,20 @@
   	
   	public function __construct(array $config){
   	  $this->_config = $config;
+  	}
+  	
+  	public function __isset($x){
+  		if(isset($this->_variables[$x]))
+  		  return true;
+  		return false;
+  	}
+  	
+  	public function __set($x, $y){
+  		$this->_variables[$x] = $y;
+  	}
+  	
+  	public function __get($x){
+  		return $this->_variables[$x];  		
   	}
     
     /**
