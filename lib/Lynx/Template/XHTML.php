@@ -65,7 +65,7 @@
   		return $this->_fileExtension;
   	}
   	
-  	public function FQDN(){
+  	public function templatePath(){
   		return parent::FQDN().'/'.$this->templatesDirectoryName().'/'.$this->currentTemplate();
   	}
   	
