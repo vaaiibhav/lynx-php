@@ -15,9 +15,9 @@
   $init = array('adapter' => 'MySQL', 
                 'init' => array(
                 'host' => 'localhost', 
-                'user' => 'tester', 
-                'pass' => '', 
-                'db' => 'domo'));
+                'user' => 'lynx', 
+                'pass' => 'lynxproject', 
+                'db' => 'lynx'));
   try {
     $Database = Lynx_Database::factory($init);
   } catch(Exception $e){
@@ -29,7 +29,7 @@
   #$Session = new Lynx_Session();
   
   $Registry = Lynx_Registry::getInstance();
-  #$Registry->set('session', $Session);
+  $Registry->set('database', $Database);
   
   $controller = Lynx_Controller_Front::getInstance();
   
