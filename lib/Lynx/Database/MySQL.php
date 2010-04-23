@@ -116,10 +116,10 @@
       for($i = 0; $i < $numToReplace; $i++){
         if(!isset($data[$i]))
           die($i.' = '.print_r($data, true));
-        elseif(is_numeric($data[$i]))
-          $sql = preg_replace("#\?#", $data[$i], $sql, 1);
         elseif(is_string($data[$i]))
           $sql = preg_replace("#\?#", "'".$data[$i]."'", $sql, 1);
+        elseif(is_numeric($data[$i]))
+          $sql = preg_replace("#\?#", $data[$i], $sql, 1);
         elseif(isset($data[$i]) && !is_array($data[$i]))
           $sql = preg_replace("#\?#", "'".$data[$i]."'", $sql, 1);
         else
