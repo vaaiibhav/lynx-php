@@ -22,4 +22,8 @@
   	
   	abstract public function isValid();
   	
+    public function out(){
+      return $this->_data;
+    }
+  	
   }
