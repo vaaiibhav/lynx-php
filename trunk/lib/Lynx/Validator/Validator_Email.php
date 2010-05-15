@@ -15,7 +15,7 @@
   	
   	public function __construct($data = NULL){
   		$this->_data = $data;
-  		// check DNS by default
+  		// do not check DNS by default
   		$this->setCheckDNS(FALSE);
   	}
   	
