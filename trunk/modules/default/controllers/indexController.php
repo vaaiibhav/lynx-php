@@ -42,6 +42,7 @@
   		else  
   		  echo 'INVALID';
   		  */
+  		/*
   		require_once('Lynx/Validator/Validator_Email.php');
   		$v = new Lynx_Validator_Email();
   		$addresses = array('travis@crowder.com', 
@@ -56,6 +57,7 @@
   			else
   			 echo $address.' is NOT valid.<br />';
   		}
+  		*/
   	}
   	
   }
