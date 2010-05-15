@@ -11,27 +11,61 @@
 
   class Lynx_Validator_Email extends Lynx_Validator_Abstract {
   	
+  	protected $_checkDNS = FALSE;
+  	
   	public function __construct($data = NULL){
   		$this->_data = $data;
+  		// check DNS by default
+  		$this->setCheckDNS(FALSE);
+  	}
+  	
+  	public function setCheckDNS($bool){
+  		$this->_checkDNS = (bool)$bool;
+  		return $this;
+  	}
+  	
+  	public function checkDNS($host, $type){
+  		if($this->_checkDNS)
+  		  if(!$this->verifyDNS($host, $type))
+  		    return false;
+  		return true;
+  	}
+  	
+  	protected function verifyDNS($host, $type){
+  		return checkdnsrr($host, $type);
   	}
   	
   	public function isValid(){
 
-	    $qtext = '[^\\x0d\\x22\\x5c\\x80-\\xff]';	
-	    $dtext = '[^\\x0d\\x5b-\\x5d\\x80-\\xff]';	
-	    $atom = '[^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c'.
-	      '\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+';	
-	    $quoted_pair = '\\x5c[\\x00-\\x7f]';	
-	    $domain_literal = "\\x5b($dtext|$quoted_pair)*\\x5d";	
-	    $quoted_string = "\\x22($qtext|$quoted_pair)*\\x22";	
-	    $domain_ref = $atom;	
-	    $sub_domain = "($domain_ref|$domain_literal)";	
-	    $word = "($atom|$quoted_string)";	
-	    $domain = "$sub_domain(\\x2e$sub_domain)*";	
-	    $local_part = "$word(\\x2e$word)*";	
-	    $addr_spec = "$local_part\\x40$domain";
+	    if(!preg_match('#@#', $this->_data)) return false;
+	    
+	    $temp = preg_split('#@#', $this->_data);
+	    if(count($temp) != 2) return false;
+
+	    $local = $temp[0];
+	    $domain = $temp[1];
+	    
+	    // make sure neither is too long
+	    if(strlen($local) > 64 || strlen($domain) > 255) return false;
+	    
+	    // check for valid local part
+	    if($local[0] == '.' || $local[strlen($local)-1] == '.') return false;
+	    
+  	  // verify the local characters
+      if(!preg_match('/^(\\\\.|[A-Za-z0-9!#%&`_=\\/$\'*+?^{}|~.-])+$/', str_replace("\\\\","",$local))){
+        if(!preg_match('/^"(\\\\"|[^"])+"$/', str_replace("\\\\","",$local)))
+          return false;                 
+      }
+	    
+	    // check for valid domain part
+	    if(!preg_match('#^[-\.a-z0-9]+$#i', $domain)) return false;
+	    
+	    // verify no double dots
+	    if(preg_match('#\\.\\.#', $domain)) return false;
+	    
+	    if(!$this->checkDNS($domain, 'MX') || !$this->checkDNS($domain, 'A')) return false;
 	
-	    return preg_match("!^$addr_spec$!", $this->_data) ? 1 : 0;
+	    return true;
   		
   	}
   	
