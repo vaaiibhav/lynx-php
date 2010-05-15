@@ -32,11 +32,11 @@
   	public function authenticate(){
   		$sql = "SELECT `".$this->_pkey."` FROM `".$this->_table."` WHERE `".$this->_userColumn."` = ? AND `".$this->_passwordColumn."` = ";
   		// check for encryption
-  		if(in_array($this->_authType, $this->_authTypes))
+  		if(in_array($this->_authType, strtoupper($this->_authTypes)))
   		  $sql .= $this->_authType.'(';
   		$sql .= "?";   		
   		// check for encryption -- close paranthesis
-  		if(in_array($this->_authType, $this->_authTypes))
+  		if(in_array($this->_authType, strtoupper($this->_authTypes)))
         $sql .= ')';
   		$res = $this->_db->rows($sql, array($this->_user, $this->_password));
   		if(count($res) == 1)
