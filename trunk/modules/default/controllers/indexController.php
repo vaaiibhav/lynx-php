@@ -42,6 +42,20 @@
   		else  
   		  echo 'INVALID';
   		  */
+  		require_once('Lynx/Validator/Validator_Email.php');
+  		$v = new Lynx_Validator_Email();
+  		$addresses = array('travis@crowder.com', 
+  		                   'me@you.com', 
+  		                   'travis.crowder@spechal.com', 
+  		                   'travis.crowder@spechal.co.uk', '.travis@spechal.com', '.travis.@spechal.com', 'travis.@spechal.com'
+  		              );
+  		foreach($addresses as $address){
+  			$v->setData($address);
+  			if($v->isValid())
+  			 echo $address.' is valid.<br />';
+  			else
+  			 echo $address.' is NOT valid.<br />';
+  		}
   	}
   	
   }
