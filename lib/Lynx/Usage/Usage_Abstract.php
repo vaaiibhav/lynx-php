@@ -2,7 +2,7 @@
   
   /**
    * @category Lynx
-   * @package Lynx_Usage_Abstract
+   * @package Lynx_Usage
    * @author Travis Crowder
    * @version $Id$
    */

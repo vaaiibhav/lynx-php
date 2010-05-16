@@ -2,7 +2,7 @@
   
   /**
    * @category Lynx
-   * @package Lynx_Usage_Memory
+   * @package Lynx_Usage
    * @author Travis Crowder
    * @version $Id$
    */
@@ -15,10 +15,20 @@
       $this->_data = $directory;
     }
     
+    /**
+     * Calls memory_get_usage(true)
+     * 
+     * @return int Number of bytes bing used
+     */
     public function usage(){
     	return memory_get_usage(true);
     }
     
+    /**
+     * Calls memory_get_peak_usage(true)
+     * 
+     * @return int Number of bytes at peak usage
+     */
     public function peak(){
     	return memory_get_peak_usage(true);
     }

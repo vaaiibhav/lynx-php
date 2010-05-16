@@ -20,7 +20,8 @@
   		$this->_registry->get('template')->title('Testing');
   		
   		
-  		// authentication test
+  		/*
+      // authentication test
   		require_once('Lynx/Auth/Auth_Db.php');
   		require_once('Lynx/Auth.php');
   		$auth = new Lynx_Auth('db', $this->_registry->get('database'));
@@ -36,6 +37,7 @@
   		  echo 'logged in';
   		else
   		  echo 'failed authentication';
+  		*/
   		  
   		
   		// validator test

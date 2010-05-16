@@ -7,9 +7,7 @@
    * @version $Id$
    */
 
-  require_once('Lynx/Usage/Usage_Abstract.php');
-
-  class Lynx_Usage extends Lynx_Usage_Abstract {
+  class Lynx_Usage {
   	
   	public function __construct($whichUsage = NULL, $data = NULL){
   		$this->_data = $data;
@@ -25,10 +23,21 @@
   		}
   	}
   	
+  	/**
+  	 * Calls usage method on child object
+  	 * 
+  	 * @return mixed Usage data
+  	 */
   	public function usage(){
   		return $this->_child->usage();
   	}
   	
+  	/**
+  	 * Calls child usage class methods
+  	 * 
+  	 * @param string $name Method name
+  	 * @param mixed $args Method arguements
+  	 */
     public function __call($name, $args){
       $this->_child->$name($args);
     }
