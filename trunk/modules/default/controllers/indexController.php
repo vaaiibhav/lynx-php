@@ -19,7 +19,7 @@
       $this->_registry->set('template', $Template);
   		$this->_registry->get('template')->title('Testing');
   		
-  		/*
+  		
   		// authentication test
   		require_once('Lynx/Auth/Auth_Db.php');
   		require_once('Lynx/Auth.php');
@@ -36,7 +36,7 @@
   		  echo 'logged in';
   		else
   		  echo 'failed authentication';
-  		  */
+  		  
   		
   		// validator test
   		/*require_once('Lynx/Validator.php');
