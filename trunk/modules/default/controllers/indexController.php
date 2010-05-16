@@ -23,8 +23,8 @@
   		// authentication test
   		require_once('Lynx/Auth/Auth_Db.php');
   		require_once('Lynx/Auth.php');
-  		#$auth = new Lynx_Auth('db', $this->_registry->get('database'));
-  		$auth = new Lynx_Auth_Db($this->_registry->get('database'));
+  		$auth = new Lynx_Auth('db', $this->_registry->get('database'));
+  		#$auth = new Lynx_Auth_Db($this->_registry->get('database'));
   		$auth->setIdentity('travis');
   		$auth->setCredential('password');
   		$auth->setTable('users');
