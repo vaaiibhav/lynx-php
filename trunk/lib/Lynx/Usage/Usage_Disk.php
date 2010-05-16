@@ -2,7 +2,7 @@
   
   /**
    * @category Lynx
-   * @package Lynx_Usage_Disk
+   * @package Lynx_Usage
    * @author Travis Crowder
    * @version $Id$
    */
