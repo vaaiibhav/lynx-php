@@ -69,7 +69,7 @@
       if(in_array($this->_encryptionType, $this->_authTypes))
         $sql .= $this->_encryptionType.'(';
       $sql .= "?";      
-      // check for encryption -- close paranthesis
+      // check for encryption -- close parenthesis
       if(in_array($this->_encryptionType, $this->_authTypes))
         $sql .= ')';
       
