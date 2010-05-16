@@ -20,14 +20,22 @@
   		$this->_registry->get('template')->title('Testing');
   		
   		// authentication test
-  		/*require_once('Lynx/Auth.php');
-  		$auth = new Lynx_Auth($this->_registry->get('database'), 'travis', 'password', 'SHA1');
+  		require_once('Lynx/Auth/Auth_Db.php');
+  		require_once('Lynx/Auth.php');
+  		#$auth = new Lynx_Auth('db', $this->_registry->get('database'));
+  		$auth = new Lynx_Auth_Db($this->_registry->get('database'));
+  		$auth->setIdentity('travis');
+  		$auth->setCredential('password');
+  		$auth->setTable('users');
+  		$auth->setIdentityColumn('login');
+  		$auth->setCredentialColumn('peaches');
+  		$auth->setEncryption('SHA1');
   		$userId = $auth->authenticate();
   		if($userId)
   		  echo 'logged in';
   		else
   		  echo 'failed authentication';
-  		  */
+  		  
   		
   		// validator test
   		/*require_once('Lynx/Validator.php');
@@ -58,6 +66,12 @@
   			 echo $address.' is NOT valid.<br />';
   		}
   		*/
+  		#require_once('Lynx/Usage/Usage_Disk.php');
+  		#require_once('Lynx/Usage/Usage_Memory.php');
+  		#$u = new Lynx_Usage_Disk('/var/www2');
+  		#$m = new Lynx_Usage_Memory();
+  		#echo $u->usage();
+  		#echo $m->usage();  		
   	}
   	
   }

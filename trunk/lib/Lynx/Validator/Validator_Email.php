@@ -63,6 +63,7 @@
 	    // verify no double dots
 	    if(preg_match('#\\.\\.#', $domain)) return false;
 	    
+	    // check DNS records
 	    if(!$this->checkDNS($domain, 'MX') || !$this->checkDNS($domain, 'A')) return false;
 	
 	    return true;
