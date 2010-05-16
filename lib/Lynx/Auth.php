@@ -7,11 +7,7 @@
    * @version $Id$
    */
 
-  /** this class is busted for now ... **/
-
-  require_once('Lynx/Auth/Auth_Abstract.php');
-
-  class Lynx_Auth extends Lynx_Auth_Abstract {
+  class Lynx_Auth {
   	
   	protected $_adapter = NULL;
   	
@@ -36,7 +32,7 @@
     }
     
     public function __call($name, $args){
-      return $this->_adapter->$name($args);
+    	return call_user_func_array(array($this->_adapter, $name), $args);
     }
   	
   }

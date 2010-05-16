@@ -66,19 +66,14 @@
     public function authenticate(){
       $sql = "SELECT `".$this->_pKey."` FROM `".$this->_table."` WHERE `".$this->_identityColumn."` = ? AND `".$this->_credentialColumn."` = ";
       // check for encryption
-      if(in_array($this->_encryptionType, $this->_authTypes))
-        $sql .= $this->_encryptionType.'(';
-      $sql .= "?";      
-      // check for encryption -- close parenthesis
-      if(in_array($this->_encryptionType, $this->_authTypes))
-        $sql .= ')';
+      $sql .= (in_array($this->_encryptionType, $this->_authTypes) ? ($this->_encryptionType . '(?)') : '?');
       
-      $result =  $this->_db->rows($sql, array($this->_identity, $this->_credential));
-      if(!empty($result[0][$this->_pKey]))
+      $result = $this->_db->rows($sql, array($this->_identity, $this->_credential));
+      
+      if(!empty($result[0][$this->_pKey])){
         $this->setPrimaryKeyValue($result[0][$this->_pKey]);
-        
-      if(strlen($this->primaryKeyValue()))
         return true;
+      }
         
       return false;
     }
