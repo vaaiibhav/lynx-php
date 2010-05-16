@@ -2,7 +2,7 @@
   
   /**
    * @category Lynx
-   * @package Lynx_Singleton_Abstract
+   * @package Lynx_Singleton
    * @author Travis Crowder
    * @version $Id$
    */
@@ -23,6 +23,8 @@
   	 * Method to get an instance of the class.
   	 * getInstance in this particular class will never be called, 
   	 * but is defined to require child definitions
+  	 * 
+  	 * @throws Exception Cannot be called
   	 */
     public static function getInstance(){
       throw new Exception('Cannot call '.__METHOD__);

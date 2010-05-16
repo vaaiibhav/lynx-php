@@ -1,7 +1,8 @@
 <?php
 
+  require_once('Lynx/Singleton/Singleton_Abstract.php');
 
-  class Lynx_Router {
+  class Lynx_Router extends Lynx_Singleton_Abstract {
   	
   	protected static $_instance = NULL;
   	
