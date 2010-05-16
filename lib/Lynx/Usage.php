@@ -10,7 +10,7 @@
   class Lynx_Usage {
   	
   	public function __construct($whichUsage = NULL, $data = NULL){
-  		$this->_data = $data;
+  		
   		switch($whichUsage){
   			case 'disk':
   				require_once('Lynx/Usage/Usage_Disk.php');
@@ -21,15 +21,7 @@
   			default:
   				break;
   		}
-  	}
-  	
-  	/**
-  	 * Calls usage method on child object
-  	 * 
-  	 * @return mixed Usage data
-  	 */
-  	public function usage(){
-  		return $this->_child->usage();
+  		
   	}
   	
   	/**

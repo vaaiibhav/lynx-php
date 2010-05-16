@@ -75,12 +75,15 @@
   		$g->setData($g->generate());
   		echo $g->isValid();
   		*/
-  		#require_once('Lynx/Usage/Usage_Disk.php');
-  		#require_once('Lynx/Usage/Usage_Memory.php');
-  		#$u = new Lynx_Usage_Disk('/var/www2');
-  		#$m = new Lynx_Usage_Memory();
-  		#echo $u->usage();
-  		#echo $m->usage();  		
+  		/*
+  		 * // Usage tests
+  		require_once('Lynx/Usage/Usage_Disk.php');
+  		require_once('Lynx/Usage/Usage_Memory.php');
+  		$u = new Lynx_Usage_Disk('/var/www2');
+  		$m = new Lynx_Usage_Memory();
+  		echo $u->usage();
+  		echo $m->usage();
+  		*/  		
   	}
   	
   }
