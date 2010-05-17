@@ -1,18 +1,16 @@
 <?php
 
   require_once('Lynx/Singleton/Singleton_Abstract.php');
+  require_once('Lynx/Request.php');
 
   class Lynx_Router extends Lynx_Singleton_Abstract {
   	
-  	protected static $_instance = NULL;
-  	
-  	protected static $_queryString = NULL;
-  	protected static $_currentModule = 'default';
-    protected static $_currentController = 'index';
-    protected static $_currentAction = 'index';
+  	protected $_request = NULL;
+  	protected $_modulesDirectory = 'modules';
+    protected $_controllersDirectory = 'controllers';
   	
   	protected function __construct(){
-  		
+  		$this->_request = Lynx_Request::getInstance();
   	}
   	
     /** 
@@ -26,73 +24,49 @@
        self::$_instance = new Lynx_Router;
       return self::$_instance;
     }
-  	
-  	public static function parse(){
-  		// figure out what to parse on
-  		$queryParameters = array();
-      if(isset($_GET['vars'])){
-        $queryParameters = $_GET['vars'];
-      } else {
-        $queryParameters = preg_replace("#((.*)\.php[/]?)?(.*)#", "\\3", $_SERVER['REQUEST_URI']);
-        // strip $_GET if present
-	      if(preg_match('#\?#', $queryParameters)){
-	        $tmp = split('\?', $queryParameters);
-	        $queryParameters = $tmp[0];
-	        unset($tmp);
-	      }
-      }
-      $queryParameters = explode("\x2F", $queryParameters);
-      // get MVC part
-      $_REQUEST['fqdn'] = $_SERVER['SERVER_NAME'];
-      $_REQUEST['module'] = (!empty($queryParameters[0])) ? $queryParameters[0] : 'default';
-      $_REQUEST['controller'] = (!empty($queryParameters[0]) && !empty($queryParameters[1])) ? $queryParameters[1] : 'index';
-      $_REQUEST['action'] = (!empty($queryParameters[0]) && !empty($queryParameters[1]) && !empty($queryParameters[2])) ? $queryParameters[2] : 'index';
-      self::setCurrentModule($_REQUEST['module']);
-      self::setCurrentController($_REQUEST['controller']);
-      self::setCurrentAction($_REQUEST['action']);
-      unset($queryParameters[0], $queryParameters[1], $queryParameters[2]);
-      
-      // get query string part
-      $queryParameters = array_values($queryParameters);
-      $queryParams = array();
-      for($i = 0; $i<count($queryParameters);$i){
-        #if(!isset($queryParameters[$i+1])) die('QP Error'.print_r($queryParameters, true));
-        $queryParams[$queryParameters[$i]] = $queryParameters[$i+1];
-        $i += 2;
-      }
-      self::setQueryString($queryParams);
-  	}
-  	
-  	protected static function setQueryString($queryString){
-  		$_REQUEST['queryString'] = self::$_queryString = $queryString;
-  	}
-  	
-  	public static function queryString(){
-  		return self::$_queryString;
-  	}
-  	
-    final public static function setCurrentModule($name){
-      self::$_currentModule = $name;
+    
+    public function getRequest(){
+    	return $this->_request;
     }
     
-    final public function currentModule(){
-      return self::$_currentModule;
+   /**
+     * setModulesDirectoryName
+     * 
+     * Method to set the directory name that houses the modules
+     * @param string $name
+     */
+    final public function setModulesDirectoryName($name){
+      $this->_modulesDirectory = $name;
     }
     
-    final public static function setCurrentController($name){
-      self::$_currentController = $name;
+    /**
+     * setControllersDirectoryName
+     * 
+     * Method to set the directory name that houses the controllers
+     * @param string $name
+     */
+    final public function setControllersDirectoryName($name){
+      $this->_controllersDirectory = $name;
     }
     
-    final public function currentController(){
-      return self::$_currentController;
+    /**
+     * getModulesDirectoryName
+     * 
+     * Method to return the current directory name for the modules
+     * @return string
+     */
+    final public function getModulesDirectoryName(){
+      return $this->_modulesDirectory;
     }
     
-    final public static function setCurrentAction($name){
-      self::$_currentAction = $name;
-    }
-    
-    final public function currentAction(){
-      return self::$_currentAction;
+    /**
+     * getControllersDirectoryName
+     * 
+     * Method to return the current directory name for the controllers
+     
+     */
+    final public function getControllersDirectoryName(){
+      return $this->_controllersDirectory;
     }
   	
   }
