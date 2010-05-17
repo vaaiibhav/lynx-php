@@ -33,4 +33,13 @@
     	return memory_get_peak_usage(true);
     }
     
+    /**
+     * Get the ini setting for memory_limit
+     * 
+     * @return int Memory limit in bytes
+     */
+    public function limit(){
+    	return ini_get('memory_limit');
+    }
+    
   }
