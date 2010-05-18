@@ -86,4 +86,8 @@
   		*/  		
   	}
   	
+  	public function ajaxAction(){
+  		echo 'Hellooooooooo Nurse!';
+  	}
+  	
   }
