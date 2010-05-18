@@ -83,8 +83,22 @@
       self::setQueryString($queryParams);
     }
     
+    /**
+     * What headers have we sent?
+     * 
+     * @return mixed The headers sent to the client
+     */
     public function getHeaders(){
-    	
+    	return headers_list();
+    }
+    
+    /**
+     * Have the headers been sent yet?
+     * 
+     * @return bool
+     */
+    public function headersSent(){
+    	return headers_sent();
     }
     
     public function setHeader(){
