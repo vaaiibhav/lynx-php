@@ -18,6 +18,12 @@
   	/**
   	 * Define template elements
   	 */
+  	
+  	/**
+  	 * @var $_render bool Whether or not to render the template
+  	 */
+  	protected $_render = TRUE;
+  	
   	// template title
   	protected $_title = 'Undefined';
   	
@@ -49,6 +55,11 @@
   	
   	public function __get($x){
   		return $this->_variables[$x];  		
+  	}
+  	
+  	public function setNoRender(){
+  		$this->_render = FALSE;
+  		return $this;
   	}
     
     /**
