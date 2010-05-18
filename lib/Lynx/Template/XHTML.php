@@ -35,6 +35,7 @@
   	}
   	
   	public function renderLayout($source, $buffer = FALSE){
+  		if(!$this->_render) return true;
   		$tmp = $this->templatesDirectoryName();
       $path = (!empty($tmp)) ? $this->templatesDirectoryName().DIRECTORY_SEPARATOR : '';
       $path .= $this->currentTemplate().DIRECTORY_SEPARATOR;
