@@ -104,5 +104,19 @@
     public function setHeader(){
     	
     }
+    
+    /**
+     * Method to unset a previously set header using header()
+     * 
+     * @since PHP 5.3.0
+     * @param string $key Header key
+     * @throws Exception Throws Exception when used before PHP 5.3.0
+     * @return void
+     */
+    public function removeheader($key){
+    	if(function_exists('header_remove'))
+    	 return header_remove($key);
+    	throw new Exception('header_remove() has not been implemented it PHP '.phpversion());
+    }
   	
   }
