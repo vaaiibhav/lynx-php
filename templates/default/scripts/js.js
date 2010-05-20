@@ -1,4 +1,4 @@
-/** global request variable -- holds the xmlHttpRequest object **/
+/** global request variable -- holds the XMLHttpRequest object **/
 var request = null;
 
 /** function to create an XMLHttpRequest 
@@ -24,6 +24,23 @@ function createRequest(){
   
   request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
+}
+
+/** function to asynchronously get a page **/
+function getURL(url){
+	if(request == null)
+		createRequest();
+	request.open('GET', url, true);
+	request.onreadystatechange = function(){
+		if(request.readyState == 4){
+			if(request.status == 200){
+				return request.responseText;
+			} else if(request.status == 404){
+				alert('HTTP Error 404 on ' + url);
+			}
+		}
+	}
+	request.send(null);
 }
 
 /** function to easily get elements by id or name 
@@ -66,8 +83,8 @@ function checkConfirm(msg, target){
 
 /** function to add a bookmark to the browser **/
 function addBookmark(title, url){
-  if(window.sidebar)
+  if(window.sidebar) // firefox
     window.sidebar.addPanel(title, url, "");
-  else
+  else // IE
     window.external.AddFavorite(url, title)
 }
