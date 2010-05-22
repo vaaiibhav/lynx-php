@@ -15,6 +15,9 @@
   	
   	protected $_fileExtension = '.phtml';
   	
+  	// template title
+    protected $_title = 'Undefined';
+  	
   	public function __construct(array $config, $docType = NULL){
   		parent::__construct($config);
   		$this->selectDocType($docType);
@@ -34,6 +37,18 @@
   		return $this->_docType;
   	}
   	
+    /**
+     * title
+     * 
+     * Method to set the template title
+     * @param string $title
+     */
+    public function title($title = NULL){
+      if($title != NULL)
+       $this->_title = $title;
+      return $this->_title;
+    }
+  	
   	public function renderLayout($source, $buffer = FALSE){
   		if(!$this->_render) return true;
   		$tmp = $this->templatesDirectoryName();
@@ -52,6 +67,11 @@
       $path .= $this->_config['currentController'].DIRECTORY_SEPARATOR;
       $path .= $source . $this->getTemplateFileExtension();
   		$this->render($path, $buffer);
+  	}
+  	
+  	public function renderAjax($source, $buffer = FALSE){
+  	  $this->setNoRender();
+  	  $this->renderPartial($source, $buffer);
   	}
   	
   	public function render($source, $buffer = FALSE){

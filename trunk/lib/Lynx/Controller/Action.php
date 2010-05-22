@@ -17,6 +17,4 @@
   		parent::__construct($registry);
   	}
   	
-  	abstract public function indexAction();
-  	
   }
