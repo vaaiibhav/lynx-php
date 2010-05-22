@@ -21,26 +21,35 @@ function createRequest(){
   if(request == null){
     alert("Error creating request object.");
   }
-  
-  request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
 }
 
 /** function to asynchronously get a page **/
-function getURL(url){
+function fetchURL(url){
 	if(request == null)
 		createRequest();
-	request.open('GET', url, true);
-	request.onreadystatechange = function(){
-		if(request.readyState == 4){
-			if(request.status == 200){
-				return request.responseText;
-			} else if(request.status == 404){
-				alert('HTTP Error 404 on ' + url);
-			}
-		}
-	}
+	request.open('GET', url, false);
+	request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+	request.onreadystatechange = returnResponse;
 	request.send(null);
+}
+
+function returnResponse(){
+	if(request.readyState == 4){
+	    if(request.status == 200){
+	      // expect JSON return
+	      //request.responseXML = eval('(' + request.responseText + ')');
+	      // expect HTML return
+	      return request.responseText;
+	    } else {
+	      alert("Error receiving value. HTTP Code " + request.status);
+	    }
+	  }
+}
+
+function getURL(url){
+	fetchURL('/index.php/default/index/ajax');
+	return returnResponse();
 }
 
 /** function to easily get elements by id or name 
@@ -71,6 +80,27 @@ function $$(name){
 		return e
 	return false;
 }
+
+/** like php print_r() **/
+function print_r(theObj){
+  if(theObj.constructor == Array ||
+     theObj.constructor == Object){
+    document.write("<ul>")
+    for(var p in theObj){
+      if(theObj[p].constructor == Array||
+         theObj[p].constructor == Object){
+    	  document.write("<li>["+p+"] => "+typeof(theObj)+"</li>");
+        document.write("<ul>")
+        print_r(theObj[p]);
+        document.write("</ul>")
+      } else {
+    	  document.write("<li>["+p+"] => "+theObj[p]+"</li>");
+      }
+    }
+    document.write("</ul>")
+  }
+}
+
 
 /** function to display a JS confirm box displaying the value 
  * of the msg variable and redirecting to target on true **/

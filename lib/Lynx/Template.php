@@ -24,8 +24,7 @@
   	 */
   	protected $_render = TRUE;
   	
-  	// template title
-  	protected $_title = 'Undefined';
+  	
   	
   	protected $_registry = NULL;
   	
@@ -61,18 +60,6 @@
   		$this->_render = FALSE;
   		return $this;
   	}
-    
-    /**
-     * title
-     * 
-     * Method to set the template title
-     * @param string $title
-     */
-    public function title($title = NULL){
-    	if($title != NULL)
-    	 $this->_title = $title;
-    	return $this->_title;
-    }
     
     /**
      * setTemplatesDirectoryName
