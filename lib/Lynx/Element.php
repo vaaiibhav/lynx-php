@@ -14,6 +14,11 @@
     protected $_id = NULL;
   
     protected $_name;
+    
+    public function __construct($id = NULL, $name = NULL){
+    	if(!empty($id)) $this->setId($id);
+    	if(!empty($name)) $this->setName($name);
+    }
   
     public function setName($name){
       $this->_name = $name;

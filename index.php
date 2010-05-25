@@ -7,6 +7,10 @@
   require_once('Lynx/Error.php');
   #set_error_handler(array(new Lynx_Error, 'error'), E_ALL | E_STRICT);
 
+  function pprint(array $a){
+  	echo '<pre>'; print_r($a); echo '</pre>';
+  }
+  
   require_once('Lynx/Session.php');
   require_once('Lynx/Registry.php');
   
@@ -17,7 +21,8 @@
                 'host' => 'localhost', 
                 'user' => 'lynx', 
                 'pass' => 'lynxproject', 
-                'db' => 'lynx'));
+                'db' => 'lynx', 
+                'prefix' => ''));
   try {
     $Database = Lynx_Database::factory($init);
   } catch(Exception $e){
