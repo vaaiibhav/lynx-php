@@ -27,10 +27,6 @@
       return $this->_adapter;
     }
     
-    public function authenticate(){
-    	return $this->_adapter->authenticate();
-    }
-    
     public function __call($name, $args){
     	return call_user_func_array(array($this->_adapter, $name), $args);
     }

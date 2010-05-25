@@ -48,6 +48,7 @@
       $this->_info['user'] = $init['user'];
       $this->_info['pass'] = $init['pass'];
       $this->_info['db'] = $init['db'];
+      $this->_info['prefix'] = $init['prefix'];
       $this->getConnection();
     }
 
@@ -175,6 +176,10 @@
     
     public function queryCount(){
       return self::$_queryCount;
+    }
+    
+    public function tablePrefix(){
+    	return $this->_info['prefix'];
     }
 
   }

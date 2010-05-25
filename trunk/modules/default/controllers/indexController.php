@@ -67,7 +67,26 @@
   		$m = new Lynx_Usage_Memory();
   		echo $u->usage();
   		echo $m->usage();
-  		*/  		
+  		*/
+  		// Acl tests
+  		require_once('Lynx/Acl/Acl_Db.php');
+  		require_once('Lynx/Acl/Acl_Role_Db.php');
+  		require_once('Lynx/Acl/Acl_Permission_Db.php');
+  		$acl = new Lynx_Acl_Db($this->_registry->get('database'));
+  		$guest = new Lynx_Acl_Role_Db($this->_registry->get('database'), 'guest');
+  		$mod = new Lynx_Acl_Role_Db($this->_registry->get('database'), 'mod');
+  		$admin = new Lynx_Acl_Role_Db($this->_registry->get('database'), 'admin');
+  		
+  		//$p = new Lynx_Acl_Permission_Db($this->_registry->get('database'), 'testing');
+  		//$p->create();
+  		//echo $p->getId();
+  		
+  		$acl->addRole($guest);
+  		$acl->addRole($mod, $guest);  		
+  		$acl->addRole($admin);
+  		
+  		pprint($acl->getRoles());
+  		
   	}
   	
   	public function ajaxAction(){
