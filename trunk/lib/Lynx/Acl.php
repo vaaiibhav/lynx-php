@@ -13,8 +13,6 @@
   	
   	protected static $_instance = NULL;
   	
-  	protected $_roles = array();
-  	protected $_permissions = array();
   	protected $_hashTable = array();
   	protected $_exempt = FALSE;
   	
