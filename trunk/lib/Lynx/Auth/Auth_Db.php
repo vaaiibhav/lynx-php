@@ -108,5 +108,19 @@
         
       return false;
     }
+    
+    protected function createTable(){
+    	$sql = "CREATE TABLE `users` (
+							 `user_id` char(36) NOT NULL,
+							 `login` varchar(128) NOT NULL,
+							 `peaches` char(40) NOT NULL,
+							 PRIMARY KEY  (`user_id`),
+							 KEY `login` (`login`,`peaches`)
+							) ENGINE=MyISAM";
+      if($this->_db->query($sql))
+        return true;
+      else
+        throw new Exception('Could not create user table');
+    }
   	
   }
