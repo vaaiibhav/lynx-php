@@ -100,7 +100,9 @@
       $result = $this->_db->rows($sql, array($this->_identity, $this->_credential));
       
       if(!empty($result[0][$this->_pKey])){
+      	// valid user
         $this->setPrimaryKeyValue($result[0][$this->_pKey]);
+        $this->_authenticated = TRUE;
         return true;
       }
         
