@@ -68,6 +68,7 @@
   		echo $u->usage();
   		echo $m->usage();
   		*/
+  		/*
   		// Acl tests
   		require_once('Lynx/Acl.php');
   		require_once('Lynx/Acl/Acl_Db.php');
@@ -80,16 +81,6 @@
   		$mod = new Lynx_Acl_Role_Db($this->_registry->get('database'), 'mod');
   		$admin = new Lynx_Acl_Role_Db($this->_registry->get('database'), 'admin');
   		
-  		//$p = new Lynx_Acl_Permission_Db($this->_registry->get('database'), 'testing');
-  		//$p->create();
-  		//echo $p->getId();
-  		
-  		#$acl->addRole($guest);
-  		#$acl->addRole($mod, $guest);  		
-  		#$acl->addRole($admin);
-  		
-  		#pprint($acl->getRoles());
-  		
   		$index = new Lynx_Acl_Permission('view_index');
   		$all = new Lynx_Acl_Permission('all');
   		
@@ -97,7 +88,8 @@
   		$del = new Lynx_Acl_Permission('delete');
   		$test = new Lynx_Acl_Permission('test');
   		$moderate = new Lynx_Acl_Permission('moderate');
-  		$acl->allow($admin, $all)->allow($guest, $index)->deny($guest, $moderate)->deny($mod, $test)->allow($mod, $del)->allow($mod, $write);
+  		$acl->allow($admin, $all)->allow($guest, $index)->deny($guest, $moderate);
+  		$acl->deny($mod, $test)->allow($mod, $del)->allow($mod, $write);
   		
   		echo ($acl->isAllowed($mod, new Lynx_Acl_Permission('read'))) ? 'YES' : 'NO';
   		echo ($acl->isAllowed($mod, $write)) ? 'YES' : 'NO';
@@ -106,6 +98,7 @@
   		echo '<pre>';
   		print_r($acl);
   		echo '</pre>';
+  		*/
   		
   	}
   	
