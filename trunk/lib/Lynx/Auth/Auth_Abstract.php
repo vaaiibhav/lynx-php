@@ -40,6 +40,7 @@
   	
   	protected $_identity = NULL;
   	protected $_credential = NULL;
+  	protected $_authenticated = FALSE;
   	
   	public function setIdentity($identity){
   		$this->_identity = $identity;
@@ -52,5 +53,9 @@
   	}
   	
   	abstract public function authenticate();
+  	
+  	public function authenticated(){
+  		return $this->_authenticated;
+  	}
   	
   }
