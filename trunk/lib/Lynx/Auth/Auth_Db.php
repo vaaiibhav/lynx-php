@@ -43,6 +43,9 @@
     protected $_pKey = 'user_id';
     protected $_pKeyValue = NULL;
     protected $_authTypes = array('MD5', 'SHA1');
+    protected $_identityColumn = 'login';
+    protected $_credentialColumn = 'peaches';
+    protected $_encryptionType = 'SHA1';
   	
     public function __construct(Lynx_Database $db, $user = NULL, $pass = NULL, $encryptionType = NULL){
       $this->setDatabase($db);
