@@ -8,6 +8,7 @@
    */
 
 	// IN PROGRESS !!!
+	// COMING BACK A MONTH LATER --- REDO IT ALL!!!
 
   class Lynx_Date {
   	
