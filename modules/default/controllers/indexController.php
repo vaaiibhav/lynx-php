@@ -68,7 +68,7 @@
   		echo $u->usage();
   		echo $m->usage();
   		*/
-  		
+  		/*
   		// Acl tests
   		require_once('Lynx/Acl.php');
   		require_once('Lynx/Acl/Acl_Db.php');
@@ -103,7 +103,7 @@
   		echo 'ADMIN ID = '.$admin->getId().'<br />';
   		print_r($perms->getPermissions($admin));
   		echo '</pre>';
-  		
+  		*/
   		
   	}
   	
