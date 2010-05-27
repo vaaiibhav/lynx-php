@@ -155,6 +155,7 @@
         else
           throw new Exception('May only prepare int and string data types and the following was supplied: '.$data[$i]);
       }
+      if($this->_debug) exit($sql);
       return $sql;
     }
 
@@ -209,6 +210,11 @@
     
     public function tablePrefix(){
     	return $this->_info['prefix'];
+    }
+    
+    public function debug(){
+    	$this->_debug = TRUE;
+    	return $this;
     }
 
   }
