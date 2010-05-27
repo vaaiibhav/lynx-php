@@ -42,8 +42,16 @@
 
   class Lynx_Acl_Role_Permission_Db extends Lynx_Acl_Permission_Abstract {
   	
-  	public function hasPermission(Lynx_Acl_Role_Db $role, Lynx_Acl_Permission_Db $permission){
-  		//
+    public function __construct(Lynx_Database $db, $name = NULL, $id = NULL){
+      parent::__construct($id, $name);
+      $this->_db = $db;     
+    }
+  	
+  	public function getPermissions(Lynx_Acl_Role_Db $role){
+  		$sql = "SELECT `p`.`permission_id`, `p`.`permission_name` FROM `".$this->_db->tablePrefix()."permissions` AS `p`";
+  		$sql .= " RIGHT JOIN `".$this->_db->tablePrefix()."role_permissions` AS `rp` ON `rp`.`permission_id` = `p`.`permission_id`";
+  		$sql .= " WHERE `rp`.`role_id` = ?";
+  		return $this->_db->rows($sql, array($role->getId()));
   	}
   	
   	public function addPermission(Lynx_Acl_Role_Db $role, Lynx_Acl_Permission_Db $permission){

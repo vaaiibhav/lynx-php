@@ -68,18 +68,21 @@
   		echo $u->usage();
   		echo $m->usage();
   		*/
-  		/*
+  		
   		// Acl tests
   		require_once('Lynx/Acl.php');
   		require_once('Lynx/Acl/Acl_Db.php');
   		require_once('Lynx/Acl/Acl_Role_Db.php');
+  		require_once('Lynx/Acl/Acl_Role_Permission_Db.php');
   		require_once('Lynx/Acl/Acl_Permission_Db.php');
   		require_once('Lynx/Acl/Acl_Permission.php');
   		#$acl = new Lynx_Acl_Db($this->_registry->get('database'));
   		$acl = Lynx_Acl::getInstance();
   		$guest = new Lynx_Acl_Role_Db($this->_registry->get('database'), 'guest');
   		$mod = new Lynx_Acl_Role_Db($this->_registry->get('database'), 'mod');
-  		$admin = new Lynx_Acl_Role_Db($this->_registry->get('database'), 'admin');
+  		$admin = new Lynx_Acl_Role_Db($this->_registry->get('database'), 'admin', '9387d21c-66b3-11df-a574-001fe25a4467');
+  		
+  		$perms = new Lynx_Acl_Role_Permission_Db($this->_registry->get('database'));
   		
   		$index = new Lynx_Acl_Permission('view_index');
   		$all = new Lynx_Acl_Permission('all');
@@ -97,8 +100,10 @@
   		
   		echo '<pre>';
   		print_r($acl);
+  		echo 'ADMIN ID = '.$admin->getId().'<br />';
+  		print_r($perms->getPermissions($admin));
   		echo '</pre>';
-  		*/
+  		
   		
   	}
   	
