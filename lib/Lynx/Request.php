@@ -35,9 +35,9 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    */
 
-  require_once('Lynx/Singleton/Singleton_Abstract.php');
+  require_once('Lynx/Singleton.php');
 
-  class Lynx_Request extends Lynx_Singleton_Abstract {
+  class Lynx_Request extends Lynx_Singleton {
   	
   	protected static $_queryString = NULL;
     protected static $_currentModule = 'default';

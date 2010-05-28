@@ -7,7 +7,7 @@
   	public function indexAction(){
   		$this->_template->title('Testing');
   		
-  		/*
+  		
       // authentication test
   		require_once('Lynx/Auth/Auth_Db.php');
   		require_once('Lynx/Auth.php');
@@ -20,9 +20,53 @@
   		  echo 'logged in';
   		else
   		  echo 'failed authentication';
-  		*/
   		
-  		  
+  		
+      // Acl tests
+      #require_once('Lynx/Acl.php');
+      require_once('Lynx/Acl/Acl_Db.php');
+      require_once('Lynx/Acl/Acl_Role_Db.php');
+      require_once('Lynx/Acl/Acl_Role_Permission_Db.php');
+      require_once('Lynx/Acl/Acl_Permission_Db.php');
+      #require_once('Lynx/Acl/Acl_Permission.php');
+      #$acl = Lynx_Acl_Db::getInstance($this->_registry->get('database'), $auth);
+      #$acl = Lynx_Acl::getInstance();
+      
+      #$rolePerms = new Lynx_Acl_Role_Permission_Db($this->_registry->get('database'));
+      #$role = new Lynx_Acl_Role_Db($this->_registry->get('database'));
+      #$admin = $role->create('admin');
+      #$mod = $role->create('mod');
+      #$member = $role->create('member');
+      #$guest = $role->create('guest');
+      
+      #$perms = new Lynx_Acl_Permission_Db($this->_registry->get('database'));
+      #$skipMaintenance = $perms->create('skip_maintenance');
+      #$deletePosts = $perms->create('delete_posts');
+      
+      #$rolePerms->addPermission($admin, $skipMaintenance);
+      #$rolePerms->addPermission($mod, $skipMaintenance);
+      #$rolePerms->addPermission($mod, $deletePosts);
+      
+      #$index = new Lynx_Acl_Permission('view_index');
+      #$all = new Lynx_Acl_Permission('all');
+      
+      #$write = new Lynx_Acl_Permission('write');
+      #$del = new Lynx_Acl_Permission('delete');
+      #$test = new Lynx_Acl_Permission('test');
+      #$moderate = new Lynx_Acl_Permission('moderate');
+      #$acl->allow($admin, $all)->allow($guest, $index)->deny($guest, $moderate);
+      #$acl->deny($mod, $test)->allow($mod, $del)->allow($mod, $write);
+      
+      #echo ($acl->isAllowed($mod, new Lynx_Acl_Permission('read'))) ? 'YES' : 'NO';
+      #echo ($acl->isAllowed($mod, $write)) ? 'YES' : 'NO';
+      #echo ($acl->isAllowed($mod, $test)) ? 'YES' : 'NO';
+      $acl = Lynx_Acl_Db::getInstance($this->_registry->get('database'), $auth);
+      echo '<pre>';
+      print_r($acl);
+      #echo 'ADMIN ID = '.$admin->getId().'<br />';
+      #print_r($perms->getPermissions($admin));
+      echo '</pre>';
+      
   		
   		// validator test
   		/*require_once('Lynx/Validator.php');
@@ -68,42 +112,7 @@
   		echo $u->usage();
   		echo $m->usage();
   		*/
-  		/*
-  		// Acl tests
-  		require_once('Lynx/Acl.php');
-  		require_once('Lynx/Acl/Acl_Db.php');
-  		require_once('Lynx/Acl/Acl_Role_Db.php');
-  		require_once('Lynx/Acl/Acl_Role_Permission_Db.php');
-  		require_once('Lynx/Acl/Acl_Permission_Db.php');
-  		require_once('Lynx/Acl/Acl_Permission.php');
-  		#$acl = new Lynx_Acl_Db($this->_registry->get('database'));
-  		$acl = Lynx_Acl::getInstance();
-  		$guest = new Lynx_Acl_Role_Db($this->_registry->get('database'), 'guest');
-  		$mod = new Lynx_Acl_Role_Db($this->_registry->get('database'), 'mod');
-  		$admin = new Lynx_Acl_Role_Db($this->_registry->get('database'), 'admin', '9387d21c-66b3-11df-a574-001fe25a4467');
   		
-  		$perms = new Lynx_Acl_Role_Permission_Db($this->_registry->get('database'));
-  		
-  		$index = new Lynx_Acl_Permission('view_index');
-  		$all = new Lynx_Acl_Permission('all');
-  		
-  		$write = new Lynx_Acl_Permission('write');
-  		$del = new Lynx_Acl_Permission('delete');
-  		$test = new Lynx_Acl_Permission('test');
-  		$moderate = new Lynx_Acl_Permission('moderate');
-  		$acl->allow($admin, $all)->allow($guest, $index)->deny($guest, $moderate);
-  		$acl->deny($mod, $test)->allow($mod, $del)->allow($mod, $write);
-  		
-  		echo ($acl->isAllowed($mod, new Lynx_Acl_Permission('read'))) ? 'YES' : 'NO';
-  		echo ($acl->isAllowed($mod, $write)) ? 'YES' : 'NO';
-  		echo ($acl->isAllowed($mod, $test)) ? 'YES' : 'NO';
-  		
-  		echo '<pre>';
-  		print_r($acl);
-  		echo 'ADMIN ID = '.$admin->getId().'<br />';
-  		print_r($perms->getPermissions($admin));
-  		echo '</pre>';
-  		*/
   		
   	}
   	

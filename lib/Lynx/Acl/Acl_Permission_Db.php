@@ -37,10 +37,10 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    */
 
-  require_once('Lynx/Acl/Acl_Permission_Abstract.php');
+  require_once('Lynx/Acl/Acl_Permission.php');
   require_once('Lynx/Functions.php');
 
-  class Lynx_Acl_Permission_Db extends Lynx_Acl_Permission_Abstract {
+  class Lynx_Acl_Permission_Db extends Lynx_Acl_Permission {
   	
   	protected $_db = NULL;
   	
@@ -49,10 +49,14 @@
   		$this->_db = $db;  		
   	}
   	
-  	public function create(){
+  	public function create($name = NULL){
+  		if(!empty($name)) $this->setName($name);
   		$this->setId(Lynx_Functions::UUID());
   		$sql = "INSERT INTO `".$this->_db->tablePrefix()."permissions` (`permission_id`, `permission_name`) VALUES (?, ?)";
-  		return $this->_db->query($sql, array($this->getId(), $this->getName()));
+  		if($this->_db->query($sql, array($this->getId(), $this->getName())))
+  		  return $this;
+  		else
+  		  return false;
   	}
   	
   	public function getById(){
