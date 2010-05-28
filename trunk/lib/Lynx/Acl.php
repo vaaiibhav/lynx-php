@@ -51,9 +51,13 @@
   	  $this->_auth = $auth;
   	}
   	
-  	public static function getInstance(Lynx_Auth $auth){
+  	public static function getInstance(){
+  		$args = func_get_args();
+  		if(func_num_args() != 1 || !($args[0] instanceof Lynx_Auth))
+  		  throw new Exception('Arguement 1 of '.__METHOD__.' must be of type Lynx_Auth');
+  		  
   		if(self::$_instance == NULL)
-  		  self::$_instance = new Lynx_Acl($auth);
+  		  self::$_instance = new Lynx_Acl($args[0]);
   		return self::$_instance;
   	}
     
