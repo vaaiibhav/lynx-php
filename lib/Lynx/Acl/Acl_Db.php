@@ -50,7 +50,25 @@
       }
     }
     
-    public static function getInstance(Lynx_Database $db, Lynx_Auth $auth){
+    public static function getInstance(){
+    	$args = func_get_args();
+      if(func_num_args() != 2)
+        throw new Exception(__METHOD__.' requires 2 parameters of type Lynx_Database and Lynx_Auth');
+      
+      if($args[0] instanceof Lynx_Database)
+        $db = $args[0];
+      elseif($args[1] instanceof Lynx_Database)
+        $db = $args[1];
+      else
+        throw new Exception(__METHOD__.' expects Lynx_Database');
+
+      if($args[0] instanceof Lynx_Auth)
+        $auth = $args[0];
+      elseif($args[1] instanceof Lynx_Auth)
+        $auth = $args[1];
+      else
+        throw new Exception(__METHOD__.' expects Lynx_Auth');  
+      
       if(self::$_instance == NULL)
         self::$_instance = new Lynx_Acl_Db($db, $auth);
       return self::$_instance;
