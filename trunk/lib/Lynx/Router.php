@@ -35,10 +35,10 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    */
 
-  require_once('Lynx/Singleton/Singleton_Abstract.php');
+  require_once('Lynx/Singleton.php');
   require_once('Lynx/Request.php');
 
-  class Lynx_Router extends Lynx_Singleton_Abstract {
+  class Lynx_Router extends Lynx_Singleton {
   	
   	protected $_request = NULL;
   	protected $_modulesDirectory = 'modules';

@@ -36,9 +36,7 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    */
 
-  require_once('Singleton/Singleton_Abstract.php');
-
-  class Lynx_Singleton extends Lynx_Singleton_Abstract {
+  class Lynx_Singleton {
   	
   	protected static $_instance = NULL;
   	

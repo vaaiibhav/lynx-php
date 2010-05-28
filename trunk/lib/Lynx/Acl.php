@@ -37,20 +37,23 @@
 		SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    */
 
-  require_once('Lynx/Singleton/Singleton_Abstract.php');
+  require_once('Lynx/Singleton.php');
 
-  class Lynx_Acl extends Lynx_Singleton_Abstract {
+  class Lynx_Acl extends Lynx_Singleton {
   	
   	protected static $_instance = NULL;
   	
   	protected $_hashTable = array();
   	protected $_exempt = FALSE;
+  	protected $_auth = NULL;
   	
-  	protected function __construct(){ }
+  	protected function __construct(Lynx_Auth $auth){
+  	  $this->_auth = $auth;
+  	}
   	
-  	public static function getInstance(){
+  	public static function getInstance(Lynx_Auth $auth){
   		if(self::$_instance == NULL)
-  		  self::$_instance = new Lynx_Acl();
+  		  self::$_instance = new Lynx_Acl($auth);
   		return self::$_instance;
   	}
     

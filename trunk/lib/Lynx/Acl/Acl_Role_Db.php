@@ -43,7 +43,7 @@
   	
   	protected $_db = NULL;
   	
-  	public function __construct(Lynx_Database $db, $name, $id = NULL){
+  	public function __construct(Lynx_Database $db, $name = NULL, $id = NULL){
   		parent::__construct($name, $id);
   		$this->_db = $db;
   	}
@@ -62,10 +62,14 @@
   		return $this->_db->rows($sql);
   	}
   	
-  	public function create(){
+  	public function create($name = NULL){
+  		if(!empty($name)) $this->setName($name);
   		$this->setId(Lynx_Functions::UUID());
   		$sql = "INSERT INTO `".$this->_db->tablePrefix()."roles` (`role_id`, `role_name`) VALUES (?, ?)";
-      return $this->_db->query($sql, array($this->getId(), $this->getName()));
+      if($this->_db->query($sql, array($this->getId(), $this->getName())))
+        return $this;
+      else
+        return false;
   	}
   	
   	public function remove(){

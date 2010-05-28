@@ -36,26 +36,24 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    */
 
-  require_once('Lynx/Acl/Acl_Abstract.php');
+  require_once('Lynx/Acl.php');
 
-  class Lynx_Acl_Db extends Lynx_Acl_Abstract {
+  class Lynx_Acl_Db extends Lynx_Acl {
   	
   	protected $_db = NULL;
-  	
-    public function __construct(Lynx_Database $db){
+    
+    protected function __construct(Lynx_Database $db, Lynx_Auth $auth){
     	$this->_db = $db;
+      $this->_auth = $auth;
+      if($auth->authenticated()){
+      	// get and load permissions
+      }
     }
     
-    public function allow(Lynx_Acl_Role $role, Lynx_Acl_Permission $permission){
-
-    }
-    
-    public function deny(Lynx_Acl_Role $role, Lynx_Acl_Permission $permission){
-    	
-    }
-    
-    public function isAllowed(Lynx_Acl_Role $role, Lynx_Acl_Resource $resource){
-    	
+    public static function getInstance(Lynx_Database $db, Lynx_Auth $auth){
+      if(self::$_instance == NULL)
+        self::$_instance = new Lynx_Acl_Db($db, $auth);
+      return self::$_instance;
     }
   	
   }
