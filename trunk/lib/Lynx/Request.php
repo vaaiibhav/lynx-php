@@ -88,7 +88,7 @@
       if(isset($_GET['vars'])){
         $queryParameters = $_GET['vars'];
       } else {
-        $queryParameters = preg_replace("#((.*)\.php[/]?)?(.*)#", "\\3", $_SERVER['REQUEST_URI']);
+        $queryParameters = preg_replace("#((.*)\x2Ephp[/]?)?(.*)#", "\\3", $_SERVER['REQUEST_URI']);
         // strip $_GET if present
         if(preg_match('#\?#', $queryParameters)){
           $tmp = split('\?', $queryParameters);
@@ -121,7 +121,7 @@
     /**
      * What headers have we sent?
      * 
-     * @return mixed The headers sent to the client
+     * @return mixed Returns the array value of PHP function headers_list()
      */
     public function getHeaders(){
     	return headers_list();
@@ -130,7 +130,7 @@
     /**
      * Have the headers been sent yet?
      * 
-     * @return bool
+     * @return bool Returns the value of PHP function headers_sent()
      */
     public function headersSent(){
     	return headers_sent();

@@ -47,6 +47,11 @@
   		$this->_whitespace = $whitespace;
   	}
   	
+  	/**
+  	 * Checks if the supplied data is valid
+  	 * 
+  	 * @return bool Returns true if the data is valid, false otherwise
+  	 */
   	public function isValid(){
   		$regex = '#^[0-9A-Z';
   		if($this->_whitespace)
@@ -57,8 +62,15 @@
   		return false;
   	}
   	
+  	/**
+  	 * Set whether or not to allow whitespaces (currently only spaces)
+  	 * 
+  	 * @param bool $bool Allow whitespace or not
+  	 * @return Lynx_Validator_Alnum $this Instance of Lynx_Validator_Alnum
+  	 */
   	public function setWhitespace($bool){
   		$this->_whitespace = (bool)$bool;
+  		return $this;
   	}
   	
   }

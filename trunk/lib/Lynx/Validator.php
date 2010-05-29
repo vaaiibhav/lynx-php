@@ -46,11 +46,23 @@
   			case 'alnum':
   				require_once('Validator/Validator_Alnum.php');
   				$this->_validator = new Lynx_Validator_Alnum($this->_data);
+  			case 'email':
+          require_once('Validator/Validator_Email.php');
+          $this->_validator = new Lynx_Validator_Email($this->_data);
+        case 'guid':
+        case 'uuid':
+          require_once('Validator/Validator_GUID.php');
+          $this->_validator = new Lynx_Validator_GUID($this->_data);
   			default:
-  				break;
+  				throw new Exception('Invalid validator requested in '.__METHOD__);
   		}
   	}
   	
+  	/**
+  	 * Calls the underlying validators isValid()
+  	 * 
+  	 * @return bool Returns true on validated data, false otherwise
+  	 */
   	public function isValid(){
   		return $this->_validator->isValid();
   	}

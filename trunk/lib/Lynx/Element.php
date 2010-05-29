@@ -42,7 +42,7 @@
   
     protected $_id = NULL;
   
-    protected $_name;
+    protected $_name = NULL;
     
     public function __construct($id = NULL, $name = NULL){
     	if(!empty($id)) $this->setId($id);

@@ -40,6 +40,11 @@
   	
   	protected function __construct(){ }
   	
+  	/**
+  	 * Create MySQL UUID / GUID
+  	 * 
+  	 * @return string GUID
+  	 */
   	public static function UUID(){
       return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
                 mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff),
