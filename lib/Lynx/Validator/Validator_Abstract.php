@@ -45,12 +45,27 @@
   		$this->_data = $data;
   	}
   	
+  	/**
+     * Sets the data to be validated
+     * 
+     * @return object $this
+     */
   	public function setData($data){
   		$this->_data = $this->_validator->_data = $data;
+  		return $this;
   	}
   	
+  	/**
+     * Checks if the supplied data is valid
+     * 
+     */
   	abstract public function isValid();
   	
+  	/**
+     * Returns the data under evaluation
+     * 
+     * @return mixed Data being evaluated
+     */
     public function out(){
       return $this->_data;
     }

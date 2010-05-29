@@ -52,8 +52,7 @@
   		                        'fqdn' => $_REQUEST['fqdn']
   		                       );
       $this->_template = new Lynx_Template_XHTML($templateConfig);
-      $this->_registry->set('template', $this->_template);
-  		
+      $this->_registry->set('template', $this->_template);  		
   	}
   	
   	public function __destruct(){

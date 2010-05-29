@@ -44,10 +44,20 @@
       $this->_data = $data;
     }
     
+    /**
+     * Checks if the supplied data is valid
+     * 
+     * @return bool Returns true if the data is valid, false otherwise
+     */
     public function isValid(){
       return preg_match('#^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$#', $this->_data);
     }
     
+    /**
+     * Generate a MySQL compatible Global Unique Identifier
+     * 
+     * @return string GUID
+     */
     public function generate(){
     	return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
 					      mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff),
