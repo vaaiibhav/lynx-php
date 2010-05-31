@@ -40,6 +40,7 @@
 
   class Lynx_Auth_Db extends Lynx_Auth_Db_Abstract {
   	
+    protected $_tableName = 'users';
     protected $_pKey = 'user_id';
     protected $_pKeyValue = NULL;
     protected $_authTypes = array('MD5', 'SHA1');
@@ -63,9 +64,13 @@
     }
     
   	public function setTable($table){
-  		$this->_table = $table;
+  		$this->_tableName = $table;
   		return $this;
   	}
+  	
+    public function primaryKey(){
+      return $this->_pKey;
+    }
   	
   	public function setPrimaryKey($key){
   		$this->_pKey = $key;
@@ -96,7 +101,7 @@
   	}
     
     public function authenticate(){
-      $sql = "SELECT `".$this->_pKey."` FROM `".$this->_table."` WHERE `".$this->_identityColumn."` = ? AND `".$this->_credentialColumn."` = ";
+      $sql = "SELECT `".$this->_pKey."` FROM `".$this->_tableName."` WHERE `".$this->_identityColumn."` = ? AND `".$this->_credentialColumn."` = ";
       // check for encryption
       $sql .= (in_array($this->_encryptionType, $this->_authTypes) ? ($this->_encryptionType . '(?)') : '?');
       
@@ -110,6 +115,17 @@
       }
         
       return false;
+    }
+    
+    public function loadByKey($key = NULL){
+    	if(!empty($key)) $this->setPrimaryKeyValue($key);
+    	$sql = "SELECT `".$this->_identityColumn."` FROM `".$this->_tableName."` WHERE `".$this->_pKey."` = ? LIMIT 1";
+    	$data = $this->_db->row($sql, array($this->primaryKeyValue()));
+    	if(count($data)){
+    		$this->setIdentity($data[$this->_identityColumn]);
+    		return true;
+    	}
+    	return false;
     }
     
     protected function createTable(){

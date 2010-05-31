@@ -105,7 +105,10 @@
   	
   	public function render($source, $buffer = FALSE){
   		if(!$buffer)
-  		  require_once($source);
+  		  if(is_file($source))
+  		    require_once($source);
+  		  else
+  		    exit('Invalid resource requested: '.$source.' in '.__METHOD__);
   		else 
   		  $buffer = file_get_contents($source);
   		return $buffer;

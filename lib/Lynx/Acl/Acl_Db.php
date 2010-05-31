@@ -40,9 +40,16 @@
 
   class Lynx_Acl_Db extends Lynx_Acl {
   	
+  	/**
+  	 * @var Lynx_Database
+  	 */
   	protected $_db = NULL;
     
-    protected function __construct(Lynx_Database $db, Lynx_Auth $auth){
+  	/**
+  	 * @param Lynx_Database $db
+  	 * @param Lynx_Auth_Abstract $auth
+  	 */
+    protected function __construct(Lynx_Database $db, Lynx_Auth_Abstract $auth){
     	$this->_db = $db;
       $this->_auth = $auth;
       if($auth->authenticated()){
@@ -50,10 +57,14 @@
       }
     }
     
+    /**
+     * @param Lynx_Database
+     * @param Lynx_Auth_Abstract
+     */
     public static function getInstance(){
     	$args = func_get_args();
       if(func_num_args() != 2)
-        throw new Exception(__METHOD__.' requires 2 parameters of type Lynx_Database and Lynx_Auth');
+        throw new Exception(__METHOD__.' requires 2 parameters of type Lynx_Database and Lynx_Auth_Abstract');
       
       if($args[0] instanceof Lynx_Database)
         $db = $args[0];
@@ -62,12 +73,12 @@
       else
         throw new Exception(__METHOD__.' expects Lynx_Database');
 
-      if($args[0] instanceof Lynx_Auth)
+      if($args[0] instanceof Lynx_Auth_Abstract)
         $auth = $args[0];
-      elseif($args[1] instanceof Lynx_Auth)
+      elseif($args[1] instanceof Lynx_Auth_Abstract)
         $auth = $args[1];
       else
-        throw new Exception(__METHOD__.' expects Lynx_Auth');  
+        throw new Exception(__METHOD__.' expects Lynx_Auth_Abstract');  
       
       if(self::$_instance == NULL)
         self::$_instance = new Lynx_Acl_Db($db, $auth);

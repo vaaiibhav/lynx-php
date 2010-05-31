@@ -2,7 +2,8 @@
 
   /**
    * @category Lynx
-   * @package Lynx_Auth
+   * @package Lynx_Acl
+   * @subpackage Role_Permission_Db
    * @author Travis Crowder
    * @version $Id$
    * 
@@ -36,34 +37,35 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    */
 
-  require_once('Lynx/Auth/Auth_Abstract.php');
+  require_once('Lynx/Functions.php');
+  require_once('Lynx/Element.php');
 
-  class Lynx_Auth extends Lynx_Auth_Abstract {
+  class Lynx_Acl_Auth_Role_Db extends Lynx_Element_Abstract {
   	
-  	protected $_adapter = NULL;
+  	protected $_auth = NULL;
   	
-    public function __construct($whichAdapter = NULL, $params = NULL){
-      $this->factory($whichAdapter, $params);
+    public function __construct(Lynx_Database $db, Lynx_Auth_Abstract $auth){
+    	$this->_auth = $auth;
+      parent::__construct($auth->primaryKeyValue(), NULL);
+      $this->_db = $db;     
     }
     
-    public function factory($whichAdapter = NULL, $params = NULL){
-      switch($whichAdapter){
-        case 'db':
-        case 'database':
-          require_once('Lynx/Auth/Auth_Db.php');
-          $this->_adapter = new Lynx_Auth_Db($params);
-        default:
-          break;
-      }
-      return $this->_adapter;
+    public function getRoles(){
+    	$sql = "SELECT `role_id` FROM `".$this->_db->tablePrefix()."users_roles` WHERE `".$this->_auth->primaryKey()."` = ?";
+    	return $this->_db->rows($sql, array($this->_auth->primaryKeyValue()));
     }
     
-    public function __call($name, $args){
-    	return call_user_func_array(array($this->_adapter, $name), $args);
-    }
-    
-    public function authenticate(){
-    	return $this->_adapter->authenticate();
+    protected function createTable(){
+      $sql = "CREATE TABLE `users_roles` (
+							 `user_id` char(36) NOT NULL,
+							 `role_id` char(36) NOT NULL,
+							 KEY `user_id` (`user_id`),
+							 KEY `role_id` (`role_id`)
+							) ENGINE=MyISAM";
+      if($this->_db->query($sql))
+        return true;
+      else
+        throw new Exception('Could not create user_roles table');
     }
   	
   }

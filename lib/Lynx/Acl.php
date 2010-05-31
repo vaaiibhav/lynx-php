@@ -60,18 +60,18 @@
   		$this->_exempt = TRUE;
   	}
   	
-    public function allow(Lynx_Acl_Permission $permission){
-    	$this->_hashTable[$permission->getName()] = TRUE;
+    public function allow($permission){
+    	$this->_hashTable[$permission] = TRUE;
     	return $this;
     }
     
-    public function deny(Lynx_Acl_Permission $permission){
-      $this->_hashTable[$permission->getName()] = FALSE;
+    public function deny($permission){
+      $this->_hashTable[$permission] = FALSE;
       return $this;
     }
     
-    public function isAllowed(Lynx_Acl_Permission $permission){
-    	if($this->_exempt || !empty($this->_hashTable[$permission->getName()]))
+    public function isAllowed($permission){
+    	if($this->_exempt || !empty($this->_hashTable[$permission]))
     	  return true;
     	return false;
     }
