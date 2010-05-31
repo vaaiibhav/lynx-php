@@ -11,7 +11,6 @@
   	echo '<pre>'; print_r($a); echo '</pre>';
   }
   
-  require_once('Lynx/Session.php');
   require_once('Lynx/Registry.php');
   
   require_once('Lynx/Database.php');

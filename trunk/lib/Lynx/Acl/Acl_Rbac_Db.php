@@ -39,20 +39,25 @@
 
   require_once('Lynx/Singleton.php');
 
-  class Lynx_Acl extends Lynx_Singleton {
+  class Lynx_Acl_RBAC extends Lynx_Singleton {
   	
   	protected static $_instance = NULL;
   	
   	protected $_hashTable = array();
   	protected $_exempt = FALSE;
+  	protected $_auth = NULL;
   	
-  	protected function __construct(){
-  		//
+  	protected function __construct(Lynx_Auth $auth){
+  	  $this->_auth = $auth;
   	}
   	
   	public static function getInstance(){
+  		$args = func_get_args();
+  		if(func_num_args() != 1 || !($args[0] instanceof Lynx_Auth))
+  		  throw new Exception('Arguement 1 of '.__METHOD__.' must be of type Lynx_Auth');
+  		  
   		if(self::$_instance == NULL)
-  		  self::$_instance = new Lynx_Acl();
+  		  self::$_instance = new Lynx_Acl($args[0]);
   		return self::$_instance;
   	}
     
@@ -60,18 +65,18 @@
   		$this->_exempt = TRUE;
   	}
   	
-    public function allow(Lynx_Acl_Permission $permission){
-    	$this->_hashTable[$permission->getName()] = TRUE;
+    public function allow(Lynx_Acl_Role $role, Lynx_Acl_Permission $permission){
+    	$this->_hashTable[$role->getName()][$permission->getName()] = TRUE;
     	return $this;
     }
     
-    public function deny(Lynx_Acl_Permission $permission){
-      $this->_hashTable[$permission->getName()] = FALSE;
+    public function deny(Lynx_Acl_Role $role, Lynx_Acl_Permission $permission){
+      $this->_hashTable[$role->getName()][$permission->getName()] = FALSE;
       return $this;
     }
     
-    public function isAllowed(Lynx_Acl_Permission $permission){
-    	if($this->_exempt || !empty($this->_hashTable[$permission->getName()]))
+    public function isAllowed(Lynx_Acl_Role $role, Lynx_Acl_Permission $permission){
+    	if($this->_exempt || !empty($this->_hashTable[$role->getName()][$permission->getName()]))
     	  return true;
     	return false;
     }
