@@ -38,26 +38,69 @@
    */
 
   require_once('Lynx/Singleton.php');
+  require_once('Lynx/Acl/Acl_Role_Db.php');
+  require_once('Lynx/Acl/Acl_Permission_Db.php');
+  require_once('Lynx/Acl/Acl_Role_Permission_Db.php');
+  require_once('Lynx/Acl/Acl_Auth_Role_Db.php');
 
-  class Lynx_Acl_RBAC extends Lynx_Singleton {
+  class Lynx_Acl_Rbac_Db extends Lynx_Singleton {
   	
   	protected static $_instance = NULL;
   	
+  	protected $_db = NULL;
   	protected $_hashTable = array();
   	protected $_exempt = FALSE;
   	protected $_auth = NULL;
+  	protected $_roles = array();
+  	protected $_permissions = array();
   	
-  	protected function __construct(Lynx_Auth $auth){
+  	protected function __construct(Lynx_Database $db, Lynx_Auth_Abstract $auth){
+  		$this->_db = $db;
   	  $this->_auth = $auth;
+  	  if($this->_auth->authenticated()){
+  	  	// load permissions
+  	  	$Lynx_Acl_Auth_Role_Db = new Lynx_Acl_Auth_Role_Db($db, $auth);
+  	  	$this->_roles = $Lynx_Acl_Auth_Role_Db->getRoles();
+  	  	$Lynx_Acl_Role_Permission_Db = new Lynx_Acl_Role_Permission_Db($db);
+  	  	foreach($this->_roles as $key => $array){
+  	  		$tmp = new Lynx_Acl_Role_Db($db);
+  	  		$tmp->load($array['role_id']);
+  	  		$perms = $Lynx_Acl_Role_Permission_Db->getPermissions($tmp);
+  	  		$this->_roles[$key] = $tmp;
+  	  		if(!empty($perms)){
+  	  			foreach($perms as $key => $arr){
+  	  		    $Lynx_Acl_Permission = $this->_permissions[] = new Lynx_Acl_Permission($arr['permission_name'], $arr['permission_id']);
+  	  		    $this->allow($this->_roles[$key], $Lynx_Acl_Permission);
+  	  			}
+  	  		}
+  	  	}
+  	  }
   	}
   	
+  	/**
+  	 * @params Lynx_Auth_Abstract Instance of a class the extends Lynx_Auth_Abstract
+  	 */
   	public static function getInstance(){
   		$args = func_get_args();
-  		if(func_num_args() != 1 || !($args[0] instanceof Lynx_Auth))
-  		  throw new Exception('Arguement 1 of '.__METHOD__.' must be of type Lynx_Auth');
+  		if(func_num_args() != 2)
+  		  throw new Exception(__METHOD__.' requires Lynx_Databaes and Lynx_Auth_Abstract');
+  		if(!($args[0] instanceof Lynx_Auth_Abstract) && !($args[0] instanceof Lynx_Database))
+  		  throw new Exception('Arguement 1 of '.__METHOD__.' must be of type Lynx_Auth_Abstract');
+  		if(!($args[1] instanceof Lynx_Auth_Abstract) && !($args[1] instanceof Lynx_Database))
+        throw new Exception('Arguement 2 of '.__METHOD__.' must be of type Lynx_Database');
+        
+      if($args[0] instanceof Lynx_Database)
+        $db = $args[0];
+      else
+        $db = $args[1];
+        
+      if($args[0] instanceof Lynx_Auth_Abstract)
+        $auth = $args[0];
+      else
+        $auth = $args[1];
   		  
   		if(self::$_instance == NULL)
-  		  self::$_instance = new Lynx_Acl($args[0]);
+  		  self::$_instance = new Lynx_Acl_Rbac_Db($db, $auth);
   		return self::$_instance;
   	}
     
@@ -75,9 +118,14 @@
       return $this;
     }
     
-    public function isAllowed(Lynx_Acl_Role $role, Lynx_Acl_Permission $permission){
-    	if($this->_exempt || !empty($this->_hashTable[$role->getName()][$permission->getName()]))
+    public function isAllowed($permission){
+    	if(!($permission instanceof Lynx_Acl_Permission))
+    	  $permission = new Lynx_Acl_Permission($permission);
+    	if($this->_exempt)
     	  return true;
+    	foreach($this->_roles as $role)
+    	  if(!empty($this->_hashTable[$role->getName()][$permission->getName()]))
+    	    return true;
     	return false;
     }
   	

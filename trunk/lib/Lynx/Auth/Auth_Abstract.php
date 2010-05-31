@@ -58,4 +58,9 @@
   		return $this->_authenticated;
   	}
   	
+    public function setAuthenticated($bool = FALSE){
+      $this->_authenticated = (bool)$bool;
+      return $this;
+    }
+  	
   }
