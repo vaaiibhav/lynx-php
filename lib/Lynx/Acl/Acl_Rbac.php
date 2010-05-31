@@ -49,6 +49,9 @@
   	  $this->_auth = $auth;
   	}
   	
+  	/**
+  	 * @param $args Lynx_Auth_Abstract
+  	 */
   	public static function getInstance(){
   		$args = func_get_args();
   		if(func_num_args() != 1 || !($args[0] instanceof Lynx_Auth_Abstract))
