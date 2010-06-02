@@ -9,9 +9,14 @@
   </head>
   <body>
     <div id="lynx_wrapper">
-    <?php
-      $this->renderPartial('index');
-    ?>
+      <div id="header">Lynx RAD PHP Framework</div>
+      <div id="content">
+	    <?php
+	       print_r(Lynx_Request::getInstance());
+	      $this->renderPartial('index');
+	    ?>
+      </div>
+      <div id="footer">&copy; 2009 - <?php echo date("Y"); ?> Travis Crowder</div>
     </div>
   </body>
 </html>
