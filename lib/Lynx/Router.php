@@ -60,6 +60,11 @@
       return self::$_instance;
     }
     
+    public function setRequest(Lynx_Request $request){
+      $this->_request = $request;
+      return $this;
+    }
+    
     public function getRequest(){
     	return $this->_request;
     }
