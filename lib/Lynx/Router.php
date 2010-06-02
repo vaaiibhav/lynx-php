@@ -36,16 +36,14 @@
    */
 
   require_once('Lynx/Singleton.php');
-  require_once('Lynx/Request.php');
 
   class Lynx_Router extends Lynx_Singleton {
   	
-  	protected $_request = NULL;
   	protected $_modulesDirectory = 'modules';
     protected $_controllersDirectory = 'controllers';
   	
   	protected function __construct(){
-  		$this->_request = Lynx_Request::getInstance();
+  		//
   	}
   	
     /** 
@@ -58,15 +56,6 @@
       if(self::$_instance == NULL)
        self::$_instance = new Lynx_Router;
       return self::$_instance;
-    }
-    
-    public function setRequest(Lynx_Request $request){
-      $this->_request = $request;
-      return $this;
-    }
-    
-    public function getRequest(){
-    	return $this->_request;
     }
     
    /**
