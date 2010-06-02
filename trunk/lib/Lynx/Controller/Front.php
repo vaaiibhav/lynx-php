@@ -95,8 +95,9 @@
     	
     	$Router = Lynx_Router::getInstance();
     	// why is this wrong?  why does it want the request object from the front controller?
-    	#$Request = Lynx_Request::getInstance();
-    	$Request = $Router->getRequest();
+    	$Request = Lynx_Request::getInstance();
+    	print_r($Router); echo '-----------'; print_r($Request);exit;
+    	#$Request = $Router->getRequest();
     	// pass the current module, controller and action to the Registry
     	$registry->set('module', $Request->currentModule())
     	         ->set('controller', $Request->currentController())

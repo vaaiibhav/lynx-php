@@ -10,7 +10,7 @@
   <body>
     <div id="lynx_wrapper">
     <?php
-      $this->renderPartial('index');
+      $this->renderPartial(Lynx_Request::getInstance()->currentAction());
     ?>
     </div>
   </body>
