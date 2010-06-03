@@ -4,7 +4,7 @@
   
   set_include_path(getcwd().DIRECTORY_SEPARATOR.'lib'.PATH_SEPARATOR.get_include_path());
   
-  require_once('Lynx/Error.php');
+  #require_once('Lynx/Error.php');
   #set_error_handler(array(new Lynx_Error, 'error'), E_ALL | E_STRICT);
 
   function pprint(array $a){

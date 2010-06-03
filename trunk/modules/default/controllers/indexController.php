@@ -11,10 +11,11 @@
       // authentication test
   		require_once('Lynx/Auth/Auth_Db.php');
   		require_once('Lynx/Auth.php');
-  		$auth = new Lynx_Auth('db', $this->_registry->get('database'));
-  		#$auth = new Lynx_Auth_Db($this->_registry->get('database'));
-  		$auth->setIdentity('travis')->setCredential('password')->setTable('users');
-  		#$auth->setIdentityColumn('login')->setCredentialColumn('peaches')->setEncryption('SHA1');
+  		#$auth = new Lynx_Auth('db', $this->_registry->get('database'));
+  		$auth = new Lynx_Auth_Db($this->_registry->get('database'));
+  		$auth->setIdentity('travis')->setCredential('password');
+  		#$auth->setTable('users')->setEncryption('SHA1');
+  		#$auth->setIdentityColumn('login')->setCredentialColumn('peaches');
   		$userId = $auth->authenticate();
   		if($userId)
   		  echo 'logged in';
