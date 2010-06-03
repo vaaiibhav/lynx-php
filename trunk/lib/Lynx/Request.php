@@ -39,6 +39,7 @@
 
   class Lynx_Request extends Lynx_Singleton {
   	
+  	protected static $_instance = NULL;
   	protected static $_queryString = NULL;
     protected static $_currentModule = 'default';
     protected static $_currentController = 'index';

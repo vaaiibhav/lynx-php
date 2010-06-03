@@ -40,9 +40,9 @@
   	
   	protected static $_instance = NULL;
   	
-  	protected static $_class = __CLASS__;
-  	
-  	protected function __construct(){ if(function_exists('get_called_class')) self::$_class = get_called_class(); }
+  	protected function __construct(){
+  		//
+  	}
   	
   	/**
   	 * getInstance
