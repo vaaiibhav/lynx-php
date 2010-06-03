@@ -12,8 +12,7 @@
       <div id="header">Lynx RAD PHP Framework</div>
       <div id="content">
 	    <?php
-	       print_r(Lynx_Request::getInstance());
-	      $this->renderPartial('index');
+	       $this->renderPartial(Lynx_Request::getInstance()->currentAction());
 	    ?>
       </div>
       <div id="footer">&copy; 2009 - <?php echo date("Y"); ?> Travis Crowder</div>

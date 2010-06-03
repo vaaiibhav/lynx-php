@@ -39,6 +39,7 @@
 
   class Lynx_Router extends Lynx_Singleton {
   	
+  	protected static $_instance = NULL;
   	protected $_modulesDirectory = 'modules';
     protected $_controllersDirectory = 'controllers';
   	
