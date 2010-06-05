@@ -26,10 +26,11 @@
   	public function __construct(Lynx_Registry $registry){
   		parent::__construct($registry);
   		$this->_template->setCurrentTemplate('lynx');
+  		$this->_template->addScript('jquery.min');
   		require_once('Lynx/Auth/Auth_Db.php');
   		require_once('Lynx/Acl/Acl_Rbac_Db.php');
   		$this->_auth = new Lynx_Auth_Db($registry->get('database'));
-  		$_SESSION['Lynx_Auth_ID'] = 'b4764fae-3fc5-11df-bc54-001fe25a4467';
+  		#$_SESSION['Lynx_Auth_ID'] = 'b4764fae-3fc5-11df-bc54-001fe25a4467';
   		if(!empty($_SESSION['Lynx_Auth_ID'])){
   			// load the user by ID
   			$this->_auth->setAuthenticated(TRUE)->loadByKey($_SESSION['Lynx_Auth_ID']);
@@ -43,7 +44,7 @@
   		#echo '<pre>'; print_r($this->_acl); echo '</pre>';
   		
   		if(!$this->_acl->isAllowed('skip_maintenance'))
-  		  $this->_template->content = 'You are not welcome.';
+  		  header('Location: /index.php/lynx/login');
   		else
   		  $this->_template->content = 'Welcome!';
   		  
