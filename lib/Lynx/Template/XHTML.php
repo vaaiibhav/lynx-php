@@ -89,8 +89,8 @@
      */
     public function title($title = NULL){
       if($title != NULL)
-       $this->_title = $title;
-      return '<title>'.$this->_title.'</title>'."\n";
+       $this->rawTitle($title);
+      return '<title>'.$this->rawTitle().'</title>'."\n";
     }
     
     /**
