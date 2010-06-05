@@ -1,11 +1,12 @@
 <?php
   echo $this->docType(); 
 ?>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <title><?php echo $this->title(); ?></title>
-    <link rel="stylesheet" href="http://<?php echo $this->templatePath(); ?>/styles/style.css" type="text/css" media="screen" />
-    <script type="text/javascript" src="http://<?php echo $this->templatePath(); ?>/scripts/js.js"></script>
+    <?php
+      echo $this->title();
+      echo $this->getStyles();
+      echo $this->getScripts();
+    ?>
   </head>
   <body>
     <div id="lynx_wrapper">

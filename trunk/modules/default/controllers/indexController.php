@@ -114,12 +114,17 @@
   		echo $u->usage();
   		echo $m->usage();
   		*/
-  		
-  		
   	}
   	
   	public function ajaxAction(){
   		$this->_template->renderAjax('ajax');
+  	}
+  	
+  	public function captchaAction(){
+  		$this->_template->setNoRender();
+  		require_once('Lynx/Captcha.php');
+      $c = new Lynx_Captcha();
+      $c->output();
   	}
   	
   }
