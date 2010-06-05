@@ -6,6 +6,16 @@ body {
   padding:0px;
 }
 
+h1, h2, h3, h4 {
+  color:#900;
+}
+
+h3 {
+  font-size:14pt;
+  font-weight:bold;
+  font-style:italic;
+}
+
 div#lynx_wrapper {
 	margin:0px auto;
 	width:780px;
@@ -29,4 +39,39 @@ div#footer {
   text-align:center;
   font-size:6pt;
   margin-top:10px;
+}
+
+/** forms **/
+form.basic_form label, form.basic_form input[type="text"], form.basic_form input[type="password"] {
+  float:left;
+  width:200px;
+  height:15px;
+  line-height:15px;
+  margin-bottom:10px;
+}
+
+form.basic_form label, form.basic_form br {
+  clear:left;
+}
+
+div.message {
+  margin:20px auto;
+  padding:20px;
+  width:400px;
+  overflow:auto;
+}
+
+div.success {
+  border:1px dashed #008000;
+  background-color:#9F9;
+}
+
+div.warning {
+  border:1px dashed #AA0;
+  background-color:#FF9;
+}
+
+div.error {
+  border:1px dashed #800;
+  background-color:#F99;
 }

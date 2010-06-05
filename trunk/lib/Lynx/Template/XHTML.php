@@ -43,6 +43,10 @@
   	protected $_docType = NULL;
   	
   	protected $_fileExtension = '.phtml';
+  	protected $_protocol = 'http';
+  	
+  	protected $_scripts = array('js');
+  	protected $_styles = array(array('file' => 'style', 'media' => 'screen'));
   	
   	// template title
     protected $_title = 'Undefined';
@@ -50,15 +54,26 @@
   	public function __construct(array $config, $docType = NULL){
   		parent::__construct($config);
   		$this->selectDocType($docType);
+  		$this->_protocol = ($_SERVER['SERVER_PORT'] != 443 && !(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')) ? 'http' : 'https';
   	}
   	
   	public function selectDocType($choice = NULL){
-  		switch($choice){
+  		switch(strtoupper($choice)){
+  			case 'HTML':
+  		  case 'HTML4':
+  				$this->_docType = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">';
+          $this->_docType .= "\n<html>\n";
+  				break;
+  			case 'XHTML':
+  			case 'TRANSITIONAL':
+  				$this->_docType = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+  				$this->_docType .= "\n".'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">'."\n";
+  				break;
   			case 'XHTML1':
-  			case 'strict':
-  			case 'Strict':
+  			case 'STRICT':
   			default:
   				$this->_docType = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
+  				$this->_docType .= "\n".'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">'."\n";
   		}
   	}
   	
@@ -69,10 +84,22 @@
     /**
      * title
      * 
-     * Method to set the template title
+     * Method to set/get the template XHTML title
      * @param string $title
      */
     public function title($title = NULL){
+      if($title != NULL)
+       $this->_title = $title;
+      return '<title>'.$this->_title.'</title>'."\n";
+    }
+    
+    /**
+     * rawTitle
+     * 
+     * Method to set/get the template title
+     * @param string $title
+     */
+    public function rawTitle($title = NULL){
       if($title != NULL)
        $this->_title = $title;
       return $this->_title;
@@ -121,5 +148,65 @@
   	public function templatePath(){
   		return parent::FQDN().'/'.$this->templatesDirectoryName().'/'.$this->currentTemplate();
   	}
+  	
+  	public function scriptsPath(){
+  		return parent::FQDN().'/'.$this->templatesDirectoryName().'/'.$this->currentTemplate().'/scripts';
+  	}
+  	
+  	public function stylesPath(){
+  		return parent::FQDN().'/'.$this->templatesDirectoryName().'/'.$this->currentTemplate().'/styles';
+  	}
+  	
+  	public function addScript($name){
+  		if(!in_array($name, $this->_scripts))
+  		  $this->_scripts[] = $name;
+  	}
+  	
+  	public function removeScript($name){
+  		$key = array_search($name);
+  		if($key)
+        unset($this->_scripts[$key]);
+  	}
+  	
+    public function clearScripts(){
+      $this->_scripts = array();
+    }
+  	
+  	public function getScripts(){
+  		$out = '';
+  		foreach($this->_scripts as $key => $file){
+  			$out .= '<script type="text/javascript" src="'.$this->_protocol.'://'.$this->scriptsPath().'/'.$file.'.js"></script>'."\n";
+  		}
+  		return $out;
+  	}
+  	
+  	/**
+  	 * @param mixed|string $style Expects array(filename, mediatype) or string filename
+  	 */
+    public function addStyle($new){
+    	if(!is_array($new)) $new = array('file' => $new, 'media' => 'screen');
+      foreach($this->_styles as $key => $style)
+        if($style['file'] == $new['file'])
+          return true;
+      $this->_styles[] = $new;
+    }
+    
+    public function removeStyle($name){
+      foreach($this->_styles as $key => $style)
+        if($style['file'] == $name)
+          unset($this->_styles[$key]);
+    }
+    
+    public function clearStyles(){
+    	$this->_styles = array();
+    }
+    
+    public function getStyles(){
+      $out = '';
+      foreach($this->_styles as $key => $style){
+        $out .= '<link rel="stylesheet" type="text/css" href="'.$this->_protocol.'://'.$this->stylesPath().'/'.$style['file'].'.css" media="'.$style['media'].'" />'."\n";
+      }
+      return $out;
+    }
   	
   }

@@ -11,6 +11,10 @@
   	echo '<pre>'; print_r($a); echo '</pre>';
   }
   
+  // we are going to use sessions
+  session_start();
+  #$Session = new Lynx_Session();
+  
   require_once('Lynx/Registry.php');
   
   require_once('Lynx/Database.php');
@@ -29,8 +33,6 @@
   }
   
   require_once('Lynx/Controller/Front.php');
-  
-  #$Session = new Lynx_Session();
   
   $Registry = Lynx_Registry::getInstance();
   $Registry->set('database', $Database);

@@ -8,7 +8,8 @@
   		$this->_template->title('Testing');
   		
   		
-      // authentication test
+      /*
+  		// authentication test
   		require_once('Lynx/Auth/Auth_Db.php');
   		require_once('Lynx/Auth.php');
   		#$auth = new Lynx_Auth('db', $this->_registry->get('database'));
@@ -21,14 +22,14 @@
   		  echo 'logged in';
   		else
   		  echo 'failed authentication';
-  		
+  		*/
   		
       // Acl tests
       #require_once('Lynx/Acl.php');
-      require_once('Lynx/Acl/Acl_Db.php');
-      require_once('Lynx/Acl/Acl_Role_Db.php');
-      require_once('Lynx/Acl/Acl_Role_Permission_Db.php');
-      require_once('Lynx/Acl/Acl_Permission_Db.php');
+      #require_once('Lynx/Acl/Acl_Db.php');
+      #require_once('Lynx/Acl/Acl_Role_Db.php');
+      #require_once('Lynx/Acl/Acl_Role_Permission_Db.php');
+      #require_once('Lynx/Acl/Acl_Permission_Db.php');
       #require_once('Lynx/Acl/Acl_Permission.php');
       #$acl = Lynx_Acl_Db::getInstance($this->_registry->get('database'), $auth);
       #$acl = Lynx_Acl::getInstance();
@@ -61,12 +62,12 @@
       #echo ($acl->isAllowed($mod, new Lynx_Acl_Permission('read'))) ? 'YES' : 'NO';
       #echo ($acl->isAllowed($mod, $write)) ? 'YES' : 'NO';
       #echo ($acl->isAllowed($mod, $test)) ? 'YES' : 'NO';
-      $acl = Lynx_Acl_Db::getInstance($this->_registry->get('database'), $auth);
-      echo '<pre>';
-      print_r($acl);
+      #$acl = Lynx_Acl_Db::getInstance($this->_registry->get('database'), $auth);
+      #echo '<pre>';
+      #print_r($acl);
       #echo 'ADMIN ID = '.$admin->getId().'<br />';
       #print_r($perms->getPermissions($admin));
-      echo '</pre>';
+      #echo '</pre>';
       
   		
   		// validator test
