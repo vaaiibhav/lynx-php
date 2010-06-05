@@ -1,0 +1,14 @@
+<h3>Please authenticate yourself</h3>
+<?php
+  if(!empty($this->error)) echo '<div class="message error">'.$this->error.'</div>';
+?>
+<form name="login" id="login" method="post" action="" class="basic_form">
+  <label for="user">Username:</label><input type="text" name="user" value="" /><br />
+  <label for="pass">Password:</label><input type="password" name="pass" value="" /><br />
+  <label for="submit">&nbsp;</label><input type="submit" name="submit" value="Login!" />
+</form>
+<script type="text/javascript">
+<!--
+document.getElementsByName('user')[0].focus();
+//-->
+</script>
