@@ -102,19 +102,19 @@
     	         ->set('modulesDirectory', $Router->getModulesDirectoryName());
     	
       // load up the business logic ... module's controller
-      $controllerDirectory = '';
-      
-      $controllerDirectory .= ($Router->getModulesDirectoryName()) ? $Router->getModulesDirectoryName().DIRECTORY_SEPARATOR : '';
-      
-      $controllerDirectory .= $_REQUEST['module'].DIRECTORY_SEPARATOR;
-      
+      $controllerDirectory = NULL;      
+      $controllerDirectory .= ($Router->getModulesDirectoryName()) ? $Router->getModulesDirectoryName().DIRECTORY_SEPARATOR : '';      
+      $controllerDirectory .= $_REQUEST['module'].DIRECTORY_SEPARATOR;      
       $controllerDirectory .= ($Router->getControllersDirectoryName()) ? $Router->getControllersDirectoryName().DIRECTORY_SEPARATOR : '';
       
-      require_once($controllerDirectory.$_REQUEST['controller'].'Controller.php');
+      if(is_file($controllerDirectory.$_REQUEST['controller'].'Controller.php'))
+        require_once($controllerDirectory.$_REQUEST['controller'].'Controller.php');
+      else
+        exit('Undefined controller');
       
       $controller = $_REQUEST['controller'].'Controller';
       $controller = new $controller($registry);
-      if(in_array($_REQUEST['action'].'Action', get_class_methods($controller))){
+      if(method_exists($controller, $_REQUEST['action'].'Action')){
         $controller->{$_REQUEST['action'].'Action'}();
       } else {
       	exit('Undefined action');
