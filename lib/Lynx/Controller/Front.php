@@ -114,10 +114,12 @@
       
       $controller = $_REQUEST['controller'].'Controller';
       $controller = new $controller($registry);
-      $controller->{$_REQUEST['action'].'Action'}();
+      if(in_array($_REQUEST['action'].'Action', get_class_methods($controller))){
+        $controller->{$_REQUEST['action'].'Action'}();
+      } else {
+      	exit('Undefined action');
+      }
       
     }
-    
-    
     
   }

@@ -42,10 +42,14 @@
   	
     public function __construct(){
       // create a random string
-      $md5_hash = sha1(md5(uniqid(null, true)));
-    
-      // create a 5 character security code
-      self::$_code = substr($md5_hash, 15, 5);
+      $small_letters = range('a', 'z');
+      $large_letters = range('A', 'Z');
+      $digits = range(0, 9);
+      
+      $characters = array_merge($small_letters, $large_letters, $digits);
+      for($i = 0; $i < 5; $i++){
+      	self::$_code .= $characters[array_rand($characters)];
+      }
     
       $_SESSION['Lynx_Captcha_code'] = self::$_code;
     }
@@ -66,7 +70,7 @@
 		  imagefill($image, 0, 0, $black);
 		
 		  // add string to the image
-		  imagestring($image, 3, 21, 7, self::$_code, $white);
+		  imagestring($image, 4, 16, 5, self::$_code, $white);
 		
 		  imagerectangle($image,0,0,$width-1,$height-1,$black);
 		
