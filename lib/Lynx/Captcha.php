@@ -80,5 +80,9 @@
 		  // output the image to the browser
 		  imagejpeg($image);
     }
+    
+    public function __toString(){
+    	$this->output();
+    }
   	
   }

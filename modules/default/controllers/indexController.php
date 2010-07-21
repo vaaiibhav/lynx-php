@@ -123,8 +123,9 @@
   	public function captchaAction(){
   		$this->_template->setNoRender();
   		require_once('Lynx/Captcha.php');
-      $c = new Lynx_Captcha();
-      $c->output();
+      #$c = new Lynx_Captcha();
+      #$c->output();
+      echo new Lynx_Captcha();
   	}
   	
   }
