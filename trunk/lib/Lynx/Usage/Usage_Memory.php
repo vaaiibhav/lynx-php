@@ -47,7 +47,7 @@
     /**
      * Calls memory_get_usage(true)
      * 
-     * @return int Number of bytes bing used
+     * @return int Number of bytes being used
      */
     public function usage(){
     	return memory_get_usage(true);

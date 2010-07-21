@@ -155,7 +155,7 @@
         else
           throw new Exception('May only prepare int and string data types and the following was supplied: '.$data[$i]);
       }
-      if($this->_debug) exit($sql);
+      if($this->_debug) echo $sql.'<br />'."\n";
       return $sql;
     }
 
@@ -204,7 +204,7 @@
       $this->query("SET NAMES utf8");
     }
     
-    public function queryCount(){
+    public static function queryCount(){
       return self::$_queryCount;
     }
     

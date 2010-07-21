@@ -1,4 +1,6 @@
 <?php
+  define('APP_START_TIME', microtime(true));
+  
   ini_set('error_reporting', E_ALL | E_STRICT);
   ini_set('display_errors', 'On');
   
@@ -28,6 +30,7 @@
                 'prefix' => ''));
   try {
     $Database = Lynx_Database::factory($init);
+    #$Database->debug();
   } catch(Exception $e){
   	die('Failed to initialize the database.');
   }
@@ -40,3 +43,16 @@
   $controller = Lynx_Controller_Front::getInstance();
   
   $controller->run($Registry);
+  
+  // debug info
+  /*
+  require_once('Lynx/Usage/Usage_Memory.php');
+  $memory = new Lynx_Usage_Memory;
+  echo 'Query Count = '.$Database::queryCount();
+  echo '<br />';
+  echo 'Memory Usage = '.($memory->usage()/1024).'KB';
+  echo '<br />';
+  echo 'Peak Memory = '.($memory->peak()/1024).'KB';
+  echo '<br />';
+  echo 'Run Time = '.(microtime(true) - APP_START_TIME);
+  */
