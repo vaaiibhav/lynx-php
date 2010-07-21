@@ -38,7 +38,7 @@
    */
 
   require_once('Lynx/Acl/Acl_Permission.php');
-  require_once('Lynx/Functions.php');
+  require_once('Lynx/Validator/Validator_GUID.php');
 
   class Lynx_Acl_Permission_Db extends Lynx_Acl_Permission {
   	
@@ -51,7 +51,8 @@
   	
   	public function create($name = NULL){
   		if(!empty($name)) $this->setName($name);
-  		$this->setId(Lynx_Functions::UUID());
+  		$v = new Lynx_Validator_GUID;
+  		$this->setId($v->generate());
   		$sql = "INSERT INTO `".$this->_db->tablePrefix()."permissions` (`permission_id`, `permission_name`) VALUES (?, ?)";
   		if($this->_db->query($sql, array($this->getId(), $this->getName())))
   		  return $this;

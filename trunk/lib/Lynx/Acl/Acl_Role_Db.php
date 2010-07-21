@@ -38,6 +38,7 @@
    */
 
   require_once('Lynx/Acl/Acl_Role.php');
+  require_once('Lynx/Validator/Validator_GUID.php');
 
   class Lynx_Acl_Role_Db extends Lynx_Acl_Role {
   	
@@ -64,7 +65,8 @@
   	
   	public function create($name = NULL){
   		if(!empty($name)) $this->setName($name);
-  		$this->setId(Lynx_Functions::UUID());
+  		$v = new Lynx_Validator_GUID;
+  		$this->setId($v->generate());
   		$sql = "INSERT INTO `".$this->_db->tablePrefix()."roles` (`role_id`, `role_name`) VALUES (?, ?)";
       if($this->_db->query($sql, array($this->getId(), $this->getName())))
         return $this;
