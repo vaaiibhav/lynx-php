@@ -61,6 +61,12 @@
     static private $_queryCount = 0;
     
     /**
+     * Variable to hold the queries executed
+     * @var mixed $_queries
+     */
+    protected static $_queries = array();
+    
+    /**
      * Debugging variable used to print queries
      * 
      * @var bool $_debug
@@ -80,82 +86,90 @@
       $this->_info['prefix'] = $init['prefix'];
       $this->getConnection();
     }
+    
+    /**
+     * Close the MySQL connection
+     * 
+     * @return void
+     */
+    public function __destruct(){
+      mysql_close($this->_link);
+      $this->_link = NULL;
+      if($this->_debug){
+        echo '<pre>'.print_r(self::$_queries, true).'</pre>';
+      }
+    }
 
     public function getConnection(){
       if($this->_link === NULL)
-        $this->_link = mysql_connect($this->_info['host'], $this->_info['user'], $this->_info['pass']);
+        $this->_link = $this->_connect();
       if(!$this->_link)
         throw new Exception('Database connection failure');
-      if(!mysql_select_db($this->_info['db'], $this->_link))
+      if(!$this->changeDatabase($this->_info['db'], $this->_link))
         throw new Exception('Database selection error');
       return $this;
     }
     
     /**
-     * Function to replicate mysql_real_escape_string
-     *
-     * @param string $text
-     * @return string
+     * Create a MySQL database connection
      */
-    protected function clean($text){
+    protected function _connect(){
+      return mysql_connect($this->_info['host'], $this->_info['user'], $this->_info['pass']);
+    }
+    
+    /**
+     * Selects a MySQL database
+     */
+    public function changeDatabase($link = NULL, $db = NULL){
+      if(!$db)
+        $db = $this->_info['db'];
+      if(!$link)
+        $link = $this->_link;
+      return mysql_select_db($db, $link);       
+    }
+    
+    protected function _escape($string){
       $replace = array(
                     "\x00"  => '\x00',
                     "\n"    => '\n',
                     "\r"    => '\r',
                     '\\'    => '\\\\',
-                    #"'"     => "\'",
-                    #'"'     => '\"',
+                    "'"     => "\'",
+                    '"'     => '\"',
                     "\x1a"  => '\x1a',
-                    '?'     => '&#63;',
-                    "'"     => '&#39;',
-                    '"'     => '&#34;'
+                    '?'     => '&#63;'
                   );
-      return strtr($text, $replace);
+      return strtr($string, $replace);
     }
     
-    protected function dirty($text){
-      $replace = array(
-                    '\x00'  => "\x00",
-                    '\n'    => "\n",
-                    '\r'    => "\r",
-                    "\\\\"    => "\\",
-                    #"'"     => "\'",
-                    #'"'     => '\"',
-                    '\x1a'  => "\x1a",
-                    '&#63;'     => '?',
-                    '&#39;'     => "'",
-                    '&#34;'     => '"'
-                  );
-      return strtr($text, $replace);
-    }
-    
-    protected function clean_array(array $data){
-    	foreach($data as $key => $value)
-    	 $data[$key] = $this->clean($value);
-    	return $data;
-    }
-    
-    protected function prepare($sql, array $data = array()){
-      $dataCount = count($data);
+    /**
+     * Prepares a query
+     */
+    protected function _prepare($sql, array $bind = array()){
+      // check if there is anything to bind
+      $dataCount = count($bind);
       if(!$dataCount) return $sql;
+      // make sure there are elements to bind on
       $numToReplace = substr_count($sql, '?');
       if(!$numToReplace) return $sql;
-      #$data = array_map(array('Lynx_Database_MySQL', 'clean'), $data);
-      $data = $this->clean_array($data);
-      if($dataCount != $numToReplace) throw new Exception('Data count ('.$dataCount.') does not match bind count ('.$numToReplace.') on '.$sql);
+      // make sure the number of elements being bound equals the number of elements to bind
+      if($dataCount != $numToReplace) 
+        throw new Exception('Data count ('.$dataCount.') does not match bind count ('.$numToReplace.') on '.$sql);
+      
+      // bind the elements
       for($i = 0; $i < $numToReplace; $i++){
-        if(!isset($data[$i]))
-          die($i.' = '.print_r($data, true));
-        elseif(is_string($data[$i]))
-          $sql = preg_replace("#\?#", "'".$data[$i]."'", $sql, 1);
-        elseif(is_numeric($data[$i]))
-          $sql = preg_replace("#\?#", $data[$i], $sql, 1);
-        elseif(isset($data[$i]) && !is_array($data[$i]))
-          $sql = preg_replace("#\?#", "'".$data[$i]."'", $sql, 1);
+        if(!isset($bind[$i]) && $bind[$i] !== NULL)
+          throw new Exception('Element '.$i.' to be bound is not set');
+        if($bind[$i] === NULL)
+          $sql = preg_replace('#\?#', "NULL", $sql, 1);
+        elseif(is_string($bind[$i]) && !is_numeric($bind[$i]))
+          $sql = preg_replace('#\?#', "'".$this->_escape($bind[$i])."'", $sql, 1);
+        elseif((is_string($bind[$i]) && is_numeric($bind[$i])) || is_numeric($bind[$i]))
+          $sql = preg_replace('#\?#', $bind[$i], $sql, 1);
         else
-          throw new Exception('May only prepare int and string data types and the following was supplied: '.$data[$i]);
+          throw new Exception('You may only prepare int and string types, not this -> '.$bind[$i]);
       }
-      if($this->_debug) echo $sql.'<br />'."\n";
+        
       return $sql;
     }
 
@@ -164,13 +178,44 @@
       return mysql_result($q, 0);
     }
 
-    public function query($sql, array $data = array()){
-      $sql = $this->prepare($sql, $data);
-      $q = mysql_query($sql, $this->_link) or die(mysql_error().' on '.$sql);
+    /**
+     * Executes a MySQL query
+     */
+    public function query($sql, array $bind = array()){
+      $prepared = $this->_prepare($sql, $bind);
       self::$_queryCount++;
-      if(!$q)
-        return mysql_error($this->_link);
+      self::$_queries[] = $prepared;
+      // you must assign the query to a variable to get a resource
+      // otherwise it returns boolean
+      $q = mysql_query($prepared, $this->_link) or die(mysql_error());
       return $q;
+    }
+    
+    public function lastId(){
+      return $this->result("SELECT LAST_INSERT_ID()");
+    }
+    
+    public function addUpdate($table, $bind = array(), array $id){
+      $theId = current($id);
+      $sql = (empty($theId)) ? "INSERT INTO" : "UPDATE";
+      $sql .= " `$table` SET";
+      foreach($bind as $column => $value):
+        $sql .= " `$column` = ";
+        if($value == NULL)
+          $sql .= "NULL";
+        elseif(is_string($value) && !is_numeric($value) || empty($value))
+          $sql .= "'".$this->_escape($value)."'";
+        elseif((is_string($value) && is_numeric($value)) || is_numeric($value))
+          $sql .= $value;
+        else
+          throw new Exception("Invalid column value passed to ".__METHOD__.' -> '.$value);
+        $sql .= ",";
+      endforeach;
+      if($sql[strlen($sql)-1] == ',')
+        $sql = substr($sql, 0, -1);
+      if(!empty($theId))
+        $sql .= " WHERE `".key($id)."` = '".current($id)."'";
+      return $this->query($sql);
     }
 
     public function row($sql, array $data = array()){
@@ -208,12 +253,14 @@
       return self::$_queryCount;
     }
     
-    public function tablePrefix(){
+    public function tablePrefix($newPrefix = NULL){
+    	if($newPrefix)
+    	  $this->_info['prefix'] = $newPrefix;
     	return $this->_info['prefix'];
     }
     
-    public function debug(){
-    	$this->_debug = TRUE;
+    public function debug($bool = TRUE){
+    	$this->_debug = $bool;
     	return $this;
     }
 
