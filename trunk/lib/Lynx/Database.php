@@ -38,8 +38,6 @@
   
   abstract class Lynx_Database {
   	
-  	abstract protected function __construct();
-  	
     /**
      * factory
      * 
@@ -66,11 +64,12 @@
       }
     }
   	
-  	abstract protected function clean($sql);
-  	abstract protected function dirty($sql);
-  	abstract protected function prepare($data, array $array = array());
-  	abstract public function query($sql, array $data = array());
-  	abstract public function row($sql, array $data = array());
-  	abstract public function rows($sql, array $data = array());
+  	abstract protected function __construct();
+    abstract protected function _connect();
+    abstract public function query($sql, array $bind = array());
+    abstract public function row($sql, array $bind = array());
+    abstract public function rows($sql, array $bind = array());
+    abstract protected function _prepare($sql, array $bind = array());
+    abstract protected function _escape($string);
   	
   }
