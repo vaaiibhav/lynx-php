@@ -42,9 +42,9 @@
 
     protected $MySQL_LOCATION = 'localhost';
     protected $MySQL_PORT = 3306;
-    protected $MySQL_USER = 'massive_demomin';
-    protected $MySQL_PASSWORD = 'th3p@ssw0rd';
-    protected $MySQL_DEFAULT_DATABASE = 'massive_demo';
+    protected $MySQL_USER = '';
+    protected $MySQL_PASSWORD = '';
+    protected $MySQL_DEFAULT_DATABASE = '';
     protected $MYSQL_TABLE_PREFIX = '';
     
     protected $_link = NULL;
@@ -56,7 +56,15 @@
     /**
      * Creates a database connection and selects the default database
      */
-    protected function __construct(){
+    protected function __construct($init = array()){
+      if(!empty($init)){
+        $this->MySQL_LOCATION = (!empty($init['host'])) ? $init['host'] : 'localhost';
+        $this->MySQL_PORT = (!empty($init['port'])) ? $init['port'] : 3306;
+        $this->MySQL_USER = (!empty($init['user'])) ? $init['user'] : 'root';
+        $this->MySQL_PASSWORD = (!empty($init['pass'])) ? $init['pass'] : '';
+        $this->MySQL_DEFAULT_DATABASE = (!empty($init['db'])) ? $init['db'] : '';
+        $this->MYSQL_TABLE_PREFIX = (!empty($init['prefix'])) ? $init['prefix'] : '';
+      }
       $this->_link = $this->_connect();
       $this->changeDatabase($this->_link, $this->MySQL_DEFAULT_DATABASE);
     }
